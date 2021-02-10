@@ -93,7 +93,7 @@ public class PersonView implements ViewInterface {
         while (true) {
             if (tc_pass.containsKey(PersonTC_PN) && tc_pass.get(PersonTC_PN).equals(pass)) {
                 Map<String, Object> parameters = new HashMap<>();
-                return new ViewData("Institution", "select", parameters);
+                return new ViewData("InterMenu", "");
             } else {
                 System.out.println("You entered wrong");
                 PersonTC_PN = getString("Please enter your TC or PN : ", true);
@@ -134,9 +134,9 @@ public class PersonView implements ViewInterface {
     }
 
     ViewData updateOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of updated rows is " + modelData.recordCount);
+        System.out.println("You have been successfully registered! ");
 
-        return new ViewData("MainMenu", "");
+        return new ViewData("InterMenu", "");
     }
 
     ViewData deleteOperation(ModelData modelData) throws Exception {
@@ -209,6 +209,7 @@ public class PersonView implements ViewInterface {
             System.out.println("This TC or PN is already registered");
             tcPn = getString("TC // PN : ", true);
         }
+        PersonTC_PN = tcPn;
         password = getString("Password :", true);
         name = getString("Name : ", true);
         surname = getString("Surname : ", true);

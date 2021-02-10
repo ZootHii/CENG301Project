@@ -60,9 +60,9 @@ public class PendingView implements ViewInterface {
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of inserted rows is " + modelData.recordCount);
+        //System.out.println("Pending has been saved " + modelData.recordCount);
 
-        return new ViewData("MainMenu", "");
+        return new ViewData("InterMenu", "");
     }
 
     ViewData updateOperation(ModelData modelData) throws Exception {
@@ -110,29 +110,21 @@ public class PendingView implements ViewInterface {
     ViewData insertGUI(ModelData modelData) throws Exception {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("fieldNames", "APP_ID,STATUS,RESULT,ADDITION,FEE,IS_PAID");
-
         List<Object> rows = new ArrayList<>();
 
         Integer is_paid, appID;
         String status, result, addition, fee;
-
-        System.out.println("Fields to insert:");
-        appID = getInteger("App ID : ", true);
-        status = getString("STATUS : ", true);
-        result = getString("RESULT : ", true);
-        addition = getString("ADDITION : ", true);
-        fee = getString("FEE : ", true);
-        is_paid = getInteger("IS_PAID : ", true);
+        ResultSet resultSet = ApplicationModel.selectLastID();
+        appID = ApplicationView.lastApplicationID;
+        status = "In process";
+        result = "Not answered";
+        addition = "";
+        fee = "Not announced";
+        is_paid = 0;
         System.out.println();
 
-        if (appID != null && status != null && result != null && addition != null && fee != null
-                && is_paid != null) {
-            rows.add(new Pending(appID, status, result, addition, fee, is_paid));
-        }
-
-
+        rows.add(new Pending(appID, status, result, addition, fee, is_paid));
         parameters.put("rows", rows);
-
         return new ViewData("Pending", "insert", parameters);
     }
 

@@ -62,7 +62,6 @@ public class PendingModel implements ModelInterface {
         }
         //System.out.println(sql.toString());
 
-
         // execute constructed SQL statement
         if (rowCount > 0) {
             Connection connection = DatabaseUtilities.getConnection();

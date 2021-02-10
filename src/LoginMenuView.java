@@ -5,11 +5,12 @@ public class LoginMenuView implements ViewInterface {
 
     public ViewData create(ModelData modelData, String functionName, String operationName) throws Exception {
         Integer choice;
-        String choosen = "";
+
         do {
+            System.out.println("WELCOME TO INFORMATION RIGHTS SYSTEM");
             System.out.println("1. Login");
-            System.out.println("2. Application");
-            System.out.println("3. Manage applications (for authorities)");
+            System.out.println("2. Register");
+            System.out.println("3. Exit");
             System.out.println();
 
             choice = getInteger("Enter your choice : ", false);
@@ -21,15 +22,20 @@ public class LoginMenuView implements ViewInterface {
 
         switch (choice.intValue()) {
             case 1:
-                choosen = "MainMenu";
+                functionName = "Person";
+                operationName = "loginCheck";
                 break;
             case 2:
-                choosen = "Application";
+                functionName = "Person";
+                operationName = "insert.gui";
                 break;
-            //case 3: operationName = "insert.gui";	break;
+            case 3:
+                functionName = null;
+                operationName = null;
+                break;
             default:
                 return new ViewData(null, null);
         }
-        return new ViewData(choosen, operationName = "");
+        return new ViewData(functionName, operationName);
     }
 }

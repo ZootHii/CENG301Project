@@ -10,7 +10,8 @@ public class ModelViewControllerConsole {
         // Model View Controller (MVC)
         // Router knows all the controllers
         Map<String, Controller> router = new HashMap<>();
-        router.put("Menu", new Controller(new MenuView(), new NopModel()));
+        router.put("LoginMenu", new Controller(new LoginMenuView(), new NopModel()));
+        router.put("InterMenu", new Controller(new InterMenuView(), new NopModel()));
         router.put("MainMenu", new Controller(new MainMenuView(), new NopModel()));
         router.put("Application", new Controller(new ApplicationView(), new ApplicationModel()));
         router.put("Institution", new Controller(new InstitutionView(), new InstitutionModel())); // AHMET
@@ -18,8 +19,10 @@ public class ModelViewControllerConsole {
         router.put("ApplicationMenu", new Controller(new ApplicationMenu(), new NopModel()));
         router.put("Address", new Controller(new AddressView(), new AddressModel()));
         router.put("Form", new Controller(new FormView(), new FormModel()));
+        router.put("Pending", new Controller(new PendingView(), new PendingModel()));
 
-        ViewData viewData = new ViewData("Person", "loginCheck");
+
+        ViewData viewData = new ViewData("LoginMenu", "");
         do {
             // Model, View, and Controller
             Controller controller = router.get(viewData.functionName);
@@ -35,7 +38,6 @@ public class ModelViewControllerConsole {
         System.out.println();
         System.out.println();
         System.out.println("Program is ended...");
-
 
         // Disconnect from database
         disconnectFromDatabase();

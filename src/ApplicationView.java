@@ -61,8 +61,9 @@ public class ApplicationView implements ViewInterface {
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of inserted rows is " + modelData.recordCount);
-        return new ViewData("MainMenu", "");
+        System.out.println("Your " + modelData.recordCount + " Application has been saved");
+
+        return new ViewData("Pending", "insert.gui");
     }
 
     ViewData updateOperation(ModelData modelData) throws Exception {
@@ -104,7 +105,7 @@ public class ApplicationView implements ViewInterface {
     }
 
     int lastInstitutionID;
-    int lastApplicationID;
+    public static int lastApplicationID;
     int loggedSenderID;
     int lastFormID;
 
@@ -205,20 +206,12 @@ public class ApplicationView implements ViewInterface {
                 Map<String, Object> updateParameters = new HashMap<>();
                 Map<String, Object> whereParameters = new HashMap<>();
                 Map<String, Object> parameters = new HashMap<>();
-                Map<String, Object> parameters2 = new HashMap<>();
-
-                updateParameters.put("RECEIVER_ID", globalreceiverID);
-                updateParameters.put("SENDER_ID", loggedSenderID); // BURAYA GİRİŞ YAPAN KİŞİNİN ID Yİ KOY +
-                // updateParameters.put("FORM_ID", form) // Son oluşan formun id yi koy
-
-                whereParameters.put("ID", lastApplicationID);
 
                 parameters.put("updateParameters", updateParameters);
                 parameters.put("whereParameters", whereParameters);
 
-                return new ViewData("Form", "insert.gui", parameters2);
+                return new ViewData("Form", "insert.gui", parameters);
 
-                //return new ViewData("Application", "update", parameters);
             } else {
                 licence = getString("Please enter the licence number of institution that you want to send: ", true);
             }
