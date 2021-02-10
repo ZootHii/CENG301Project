@@ -23,10 +23,85 @@ public class EmployeeView implements ViewInterface {
                 return updateGUI(modelData);
             case "delete.gui":
                 return deleteGUI(modelData);
+            case "employeeInstitutionBind":
+                return employeeInstitutionBind();
+            case "employeeAnswerPendingApplication":
+                return employeeAnswerPendingApplication();
         }
 
         return new ViewData("MainMenu", "");
     }
+
+    ViewData employeeInstitutionBind() throws Exception {
+
+        showPendingApplications();
+
+        return new ViewData("InterMenu", "auth");
+    }
+
+    ViewData employeeAnswerPendingApplication() throws Exception {
+
+        showPendingApplications();
+
+        return new ViewData("Pending", "update.gui");
+    }
+
+    private void showPendingApplications() throws Exception {
+        String where = "P.TC_PN = " + PersonView.personTC_PN + " AND P.PASSWORD = " + PersonView.personPassword;
+        ResultSet resultSet = EmployeeModel.employeeLoginSelect(where);
+        int employeeInstitutionID = 0;
+        if (resultSet.next()) {
+            employeeInstitutionID = resultSet.getInt("INS_ID");
+            resultSet.close();
+        }
+
+        ResultSet resultSet1 = EmployeeModel.employeeInsBinder(String.valueOf(employeeInstitutionID));
+
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("ID      NAME         SURNAME         EMAIL         PHONE         DATE         LAST DATE         STATUS         TEXT         ADDITION         RETURN TYPE     ");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------");
+        if (resultSet1 != null) {
+            while (resultSet1.next()) {
+                // Retrieve by column name
+                int pendingID = resultSet1.getInt("ID");
+                String personName = resultSet1.getString("NAME");
+                String personSurname = resultSet1.getString("SURNAME");
+                String personEmail = resultSet1.getString("EMAIL");
+                String personPhone = resultSet1.getString("PHONE");
+                String appDate = resultSet1.getString("DATE");
+                String feeRequestDate = resultSet1.getString("FEE_REQUEST_DATE");
+                String pendingStatus = resultSet1.getString("STATUS");
+                String personFormText = resultSet1.getString("TEXT");
+                String personFormAddition = resultSet1.getString("ADDITION");
+                int personFormReturnType = resultSet1.getInt("RETURN_TYPE");
+
+                // Display values
+
+                System.out.print(pendingID + "\t|\t");
+                System.out.print(personName + "\t|\t");
+                System.out.print(personSurname + "\t|\t");
+                System.out.print(personEmail + "\t|\t");
+                System.out.print(personPhone + "\t|\t");
+                System.out.print(appDate + "\t|\t");
+                System.out.print(feeRequestDate + "\t|\t");
+                System.out.print(pendingStatus + "\t|\t");
+                System.out.print(personFormText + "\t|\t");
+                if (personFormAddition.equals("")) {
+                    System.out.print("Empty"+ "\t|\t");
+                } else {
+                    System.out.print(personFormAddition + "\t|\t");
+                }
+                if (personFormReturnType == 1) {
+                    System.out.println("Online");
+                } else {
+                    System.out.println("Written");
+                }
+            }
+            System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------");
+            resultSet1.close();
+        }
+    }
+
 
     ViewData selectOperation(ModelData modelData) throws Exception {
         ResultSet resultSet = modelData.resultSet;
@@ -105,14 +180,15 @@ public class EmployeeView implements ViewInterface {
         return new ViewData("Department", "select", parameters);
     }
 
+
     ViewData insertGUI(ModelData modelData) throws Exception {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("fieldNames", "EmployeeID, PersonID,InstitutionID,DepartmentName,Title,Authority,AuthorityID ");
 
         List<Object> rows = new ArrayList<>();
 
-        Integer personID,insID,authority,authID;
-        String deptName,title;
+        Integer personID, insID, authority, authID;
+        String deptName, title;
         do {
             System.out.println("Fields to insert:");
             personID = getInteger("Person ID : ", true);
@@ -123,11 +199,11 @@ public class EmployeeView implements ViewInterface {
             authID = getInteger("Authority ID : ", true);
             System.out.println();
 
-            if ( personID != null && insID != null && deptName != null && title != null && authority != null && authID != null) {
-                rows.add(new Employee( personID,insID,deptName,title,authority,authID));
+            if (personID != null && insID != null && deptName != null && title != null && authority != null && authID != null) {
+                rows.add(new Employee(personID, insID, deptName, title, authority, authID));
             }
         }
-        while ( personID != null && insID != null && deptName != null && title != null && authority != null && authID != null);
+        while (personID != null && insID != null && deptName != null && title != null && authority != null && authID != null);
 
         parameters.put("rows", rows);
 

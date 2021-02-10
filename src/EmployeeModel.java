@@ -97,6 +97,31 @@ public class EmployeeModel implements ModelInterface{
         return result;
     }
 
+    public static ResultSet employeeInsBinder(String where) throws Exception {
+        // construct SQL statement
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT ");
+        sql.append("	* ");
+        sql.append(" FROM Application AS A INNER JOIN Pending AS P\n" +
+                "ON P.APP_ID = A.ID\n" +
+                "INNER JOIN Employees AS E\n" +
+                "ON E.INS_ID = A.RECEIVER_ID\n" +
+                "INNER JOIN Person\n" +
+                "ON Person.ID = A.SENDER_ID\n" +
+                "INNER JOIN PersonForm AS PF\n" +
+                "ON PF.ID = A.FORM_ID ");
+
+        sql.append("WHERE A.RECEIVER_ID = "+where+" ");
+
+
+        // execute constructed SQL statement
+        Connection connection = DatabaseUtilities.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+        ResultSet result = preparedStatement.executeQuery();
+
+        return result;
+    }
+
 
     @Override
     public int update(Map<String, Object> updateParameters, Map<String, Object> whereParameters) throws Exception {

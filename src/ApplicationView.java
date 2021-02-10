@@ -114,7 +114,7 @@ public class ApplicationView implements ViewInterface {
         if (resultSet2 != null) {
             while (resultSet2.next()) {
                 // Retrieve by column name
-                if (resultSet2.getString("TC_PN").equals(PersonView.PersonTC_PN)) {
+                if (resultSet2.getString("TC_PN").equals(PersonView.personTC_PN)) {
                     loggedSenderID = resultSet2.getInt("ID");
                 }
             }
@@ -183,7 +183,7 @@ public class ApplicationView implements ViewInterface {
         if (resultSet2 != null) {
             while (resultSet2.next()) {
                 // Retrieve by column name
-                if (resultSet2.getString("TC_PN").equals(PersonView.PersonTC_PN)) {
+                if (resultSet2.getString("TC_PN").equals(PersonView.personTC_PN)) {
                     loggedSenderID = resultSet2.getInt("ID");
                 }
             }

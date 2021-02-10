@@ -65,9 +65,9 @@ public class PendingView implements ViewInterface {
     }
 
     ViewData updateOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of updated rows is " + modelData.recordCount);
+        System.out.println("Your answer has been saved and sent!");
 
-        return new ViewData("MainMenu", "");
+        return new ViewData("InterMenu", "auth");
     }
 
     ViewData deleteOperation(ModelData modelData) throws Exception {
@@ -132,16 +132,40 @@ public class PendingView implements ViewInterface {
     }
 
     ViewData updateGUI(ModelData modelData) throws Exception {
+        String where = "P.TC_PN = " + PersonView.personTC_PN + " AND P.PASSWORD = " + PersonView.personPassword;
+        ResultSet resultSet = EmployeeModel.employeeLoginSelect(where);
+        int employeeInstitutionID = 0;
+        if (resultSet.next()) {
+            employeeInstitutionID = resultSet.getInt("INS_ID");
+            resultSet.close();
+        }
+
+        ArrayList<Integer> appIDofInstitutionList = new ArrayList<>();
+
+        ResultSet resultSet1 = EmployeeModel.employeeInsBinder(String.valueOf(employeeInstitutionID));
+        if(resultSet1 != null){
+            while (resultSet1.next()){
+                appIDofInstitutionList.add(resultSet1.getInt("APP_ID"));
+            }
+            resultSet1.close();
+        }
+
         Integer is_paid, appID;
         String status, result, addition, fee;
 
-        System.out.println("Fields to update:");
-        appID = getInteger("App ID : ", true);
-        status = getString("STATUS : ", true);
-        result = getString("RESULT : ", true);
-        addition = getString("ADDITION : ", true);
-        fee = getString("FEE : ", true);
-        is_paid = getInteger("IS_PAID : ", true);
+
+        appID = getInteger("Enter the application's ID you want to answer : ", false);
+        while(!appIDofInstitutionList.contains(appID)){
+            appID = getInteger("The ID you entered is not in the list!\nEnter the application's ID you want to answer : ", false);
+        }
+        status = "Answered";
+        result = getString("Give your answer : ", false);
+        addition = getString("Add extra information if it is required : ", true);
+        if(addition == null){
+            addition = "";
+        }
+        fee = getString("Enter the cost of returning if there is any : ", false);
+        is_paid = getInteger("Has the person paid the fee(1 for Yes, 0 for No) : ", false);
         System.out.println();
 
         Map<String, Object> updateParameters = new HashMap<>();
@@ -154,7 +178,10 @@ public class PendingView implements ViewInterface {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("updateParameters", updateParameters);
-        parameters.put("whereParameters", getWhereParameters());
+        Map<String, Object> whereParameters = new HashMap<>();
+        whereParameters.put("APP_ID", appID);
+        parameters.put("whereParameters", whereParameters);
+
 
         return new ViewData("Pending", "update", parameters);
     }
@@ -173,7 +200,7 @@ public class PendingView implements ViewInterface {
         System.out.println("------------------------------------------------------------------------------------");
         if (resultSetLogged != null) {
             while (resultSetLogged.next()) {
-                if (resultSetLogged.getString("TC_PN").equals(PersonView.PersonTC_PN)) {
+                if (resultSetLogged.getString("TC_PN").equals(PersonView.personTC_PN)) {
                     String status = resultSetLogged.getString("STATUS");
                     String result = resultSetLogged.getString("RESULT");
                     String addition = resultSetLogged.getString("ADDITION");
@@ -201,7 +228,7 @@ public class PendingView implements ViewInterface {
                 }
             }
             System.out.println("------------------------------------------------------------------------------------");
-            System.out.println();
+
             resultSetLogged.close();
         }
 

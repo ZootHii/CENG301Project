@@ -45,14 +45,14 @@ public class InterMenuView implements ViewInterface {
             }
         }else{
             do {
-                System.out.println("--------EMPLOYEE MENU--------");
+                System.out.println("\n\t--------EMPLOYEE MENU--------");
                 System.out.println("\t1. Send an application");
                 System.out.println("\t2. Show my applications");
                 System.out.println("\t3. Manage applications");
                 System.out.println("\t4. Show applications sent to my Institution");
                 System.out.println("\t5. Answer applications sent to my Institution");
                 System.out.print("\t6. Back to login menu");
-                System.out.println("\n----------------------------");
+                System.out.println("\n\t----------------------------");
                 System.out.println();
 
                 choice = getInteger("Enter your choice : ", false);
@@ -76,10 +76,11 @@ public class InterMenuView implements ViewInterface {
                     break;
                 case 4:
                     functionName = "Employee";
-                    operationName = "";
+                    operationName = "employeeInstitutionBind";
                     break;
                 case 5:
-                    operationName = "";
+                    functionName = "Employee";
+                    operationName = "employeeAnswerPendingApplication";
                     break;
                 case 6:
                     functionName = "LoginMenu";

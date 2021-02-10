@@ -4,7 +4,8 @@ import java.util.*;
 public class PersonView implements ViewInterface {
 
     int personID;
-    public static String PersonTC_PN;
+    public static String personTC_PN;
+    public static String personPassword;
 
     @Override
     public ViewData create(ModelData modelData, String functionName, String operationName) throws Exception {
@@ -86,16 +87,16 @@ public class PersonView implements ViewInterface {
             resultSet.close();
         }
 
-        PersonTC_PN = getString("Please enter your TC or PN : ", true);
-        String pass = getString("Enter your password : ", true);
+        personTC_PN = getString("Please enter your TC or PN : ", true);
+        personPassword = getString("Enter your password : ", true);
 
         Map<String, Object> parameters = new HashMap<>();
         Map<String, Object> whereParameters = new HashMap<>();
 
 
         while (true) {
-            if (tc_pass.containsKey(PersonTC_PN) && tc_pass.get(PersonTC_PN).equals(pass)) {
-                String where = "P.TC_PN = " + PersonTC_PN + " AND P.PASSWORD = " + pass;
+            if (tc_pass.containsKey(personTC_PN) && tc_pass.get(personTC_PN).equals(personPassword)) {
+                String where = "P.TC_PN = " + personTC_PN + " AND P.PASSWORD = " + personPassword;
                 ResultSet resultSet1 = EmployeeModel.employeeLoginSelect(where);
 
                 if(resultSet1.next()) {
@@ -116,8 +117,8 @@ public class PersonView implements ViewInterface {
                 System.out.println();
                 System.out.println("You entered wrong, please enter again");
                 System.out.println();
-                PersonTC_PN = getString("Please enter your TC or PN : ", true);
-                pass = getString("Enter your password : ", true);
+                personTC_PN = getString("Please enter your TC or PN : ", true);
+                personPassword = getString("Enter your password : ", true);
             }
         }
     }
@@ -227,7 +228,7 @@ public class PersonView implements ViewInterface {
             System.out.println("This Turkish Identity number or Passport number is already registered");
             tcPn = getString("Enter your Turkish Identity number or Passport number again : ", false);
         }
-        PersonTC_PN = tcPn;
+        personTC_PN = tcPn;
         password = getString("Create a password : ", false);
         name = getString("Enter your name : ", false);
         surname = getString("Enter your surname : ", false);
