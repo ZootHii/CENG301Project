@@ -21,7 +21,7 @@ public class Form {
         this.returnType = returnType;
     }
 
-    public Form(){
+    public Form() {
 
     }
 

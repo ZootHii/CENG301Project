@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
-public class FormModel implements ModelInterface{
+public class FormModel implements ModelInterface {
     @Override
     public ResultSet select(Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
@@ -19,7 +19,6 @@ public class FormModel implements ModelInterface{
         sql.append("ORDER BY ID");
         //System.out.println(sql.toString() + "\n");
 
-
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
@@ -30,24 +29,23 @@ public class FormModel implements ModelInterface{
     }
 
     @Override
-    public int insert(String fieldNames, List<Object> rows) throws Exception
-    {
+    public int insert(String fieldNames, List<Object> rows) throws Exception {
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
-        sql.append(" INSERT INTO PersonForm (" + fieldNames + ") " );
+        sql.append(" INSERT INTO PersonForm (" + fieldNames + ") ");
         sql.append(" VALUES ");
 
         String[] fieldList = fieldNames.split(",");
 
         int rowCount = 0;
-        for (int i=0; i<rows.size(); i++) {
+        for (int i = 0; i < rows.size(); i++) {
             if (rows.get(i) instanceof Form) {
                 rowCount++;
 
-                Form form = (Form)rows.get(i);
+                Form form = (Form) rows.get(i);
 
                 sql.append("(");
-                for (int j=0; j<fieldList.length; j++) {
+                for (int j = 0; j < fieldList.length; j++) {
                     String fieldName = fieldList[j].trim();
                     sql.append(DatabaseUtilities.formatField(form.getByName(fieldName)));
                     if (j < fieldList.length - 1) {
@@ -71,17 +69,16 @@ public class FormModel implements ModelInterface{
             rowCount = preparedStatement.executeUpdate();
             preparedStatement.close();
         }
-
         return rowCount;
     }
 
     @Override
-    public int update(Map<String,Object> updateParameters, Map<String,Object> whereParameters) throws Exception
-    {
+    public int update(Map<String, Object> updateParameters, Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
         sql.append(" UPDATE PersonForm SET ");
         int appendCount = 0;
+
         for (Map.Entry<String, Object> entry : updateParameters.entrySet()) {
             sql.append(entry.getKey() + " = " + DatabaseUtilities.formatField(entry.getValue()));
             if (++appendCount < updateParameters.size()) {
@@ -91,7 +88,6 @@ public class FormModel implements ModelInterface{
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
         //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -104,8 +100,7 @@ public class FormModel implements ModelInterface{
     }
 
     @Override
-    public int delete(Map<String,Object> whereParameters) throws Exception
-    {
+    public int delete(Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
         sql.append(" DELETE FROM PersonForm ");
@@ -113,7 +108,6 @@ public class FormModel implements ModelInterface{
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
         //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -157,7 +151,6 @@ public class FormModel implements ModelInterface{
         sql.append(" FROM PersonForm ");
         sql.append("ORDER BY ID DESC");
         //System.out.println(sql.toString() + "\n");
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();

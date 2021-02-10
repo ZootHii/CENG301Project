@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
-public class AddressModel implements ModelInterface{
+public class AddressModel implements ModelInterface {
 
     @Override
     public ResultSet select(Map<String, Object> whereParameters) throws Exception {
@@ -15,7 +15,7 @@ public class AddressModel implements ModelInterface{
         sql.append(" FROM Address ");
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
-        if(!whereParameterList.isEmpty() || !whereParameters.isEmpty()){
+        if (!whereParameterList.isEmpty() || !whereParameters.isEmpty()) {
             sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
         }
 
@@ -25,7 +25,7 @@ public class AddressModel implements ModelInterface{
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
-        if(!whereParameterList.isEmpty() || !whereParameters.isEmpty()){
+        if (!whereParameterList.isEmpty() || !whereParameters.isEmpty()) {
             DatabaseUtilities.setWhereStatementParameters(preparedStatement, whereParameterList);
         }
 
@@ -42,7 +42,7 @@ public class AddressModel implements ModelInterface{
         sql.append(" FROM Address ");
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
-        if(!whereParameterList.isEmpty() || !whereParameters.isEmpty()){
+        if (!whereParameterList.isEmpty() || !whereParameters.isEmpty()) {
             sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
         }
 
@@ -52,7 +52,7 @@ public class AddressModel implements ModelInterface{
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
-        if(!whereParameterList.isEmpty() || !whereParameters.isEmpty()){
+        if (!whereParameterList.isEmpty() || !whereParameters.isEmpty()) {
             DatabaseUtilities.setWhereStatementParameters(preparedStatement, whereParameterList);
         }
 
@@ -91,9 +91,6 @@ public class AddressModel implements ModelInterface{
                 }
             }
         }
-        //System.out.println(sql.toString());
-
-
         // execute constructed SQL statement
         if (rowCount > 0) {
             Connection connection = DatabaseUtilities.getConnection();

@@ -30,32 +30,21 @@ public class InstitutionView implements ViewInterface {
     ViewData selectOperation(ModelData modelData) throws Exception {
 
         ResultSet resultSet = modelData.resultSet;
-
         if (resultSet != null) {
+            System.out.println("\tList of Institutions");
+            System.out.println("\t--------------------");
+            System.out.println("\tLicense Name  Email");
             while (resultSet.next()) {
                 // Retrieve by column name
-                int instID = resultSet.getInt("ID");
                 String licenseNumber = resultSet.getString("LICENSE_NUMBER");
                 String name = resultSet.getString("NAME");
                 String eMail = resultSet.getString("EMAIL");
-                String phone = resultSet.getString("PHONE");
-                String fax = resultSet.getString("FAX");
-                int addressID = resultSet.getInt("ADDRESS_ID");
-                int boundToID = resultSet.getInt("BOUND_TO_ID");
-                int type = resultSet.getInt("TYPE");
 
+                // Display value
 
-                // Display values
-                //System.out.print(instID + "\t");
-                System.out.print(licenseNumber + "\t");
-                System.out.print(name + "\t");
+                System.out.print("\t" + licenseNumber + " ");
+                System.out.print("\t" + name + "  ");
                 System.out.println(eMail);
-                /*System.out.print(phone + "\t");
-                System.out.print(fax + "\t");
-                System.out.print(addressID + "\t");
-                System.out.print(boundToID + "\t");*/
-                ;
-                //System.out.println(type);
             }
             resultSet.close();
         }

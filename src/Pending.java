@@ -9,10 +9,9 @@ public class Pending {
     private String addition;
     private String fee;
     private String feeRequestDate;
-    private boolean is_paid;
+    private int is_paid;
 
-
-    public Pending(int pendingID, int appID, String status, String result, String addition, String fee, String feeRequestDate, boolean is_paid) {
+    public Pending(int pendingID, int appID, String status, String result, String addition, String fee, String feeRequestDate, int is_paid) {
         this.pendingID = pendingID;
         this.appID = appID;
         this.status = status;
@@ -23,33 +22,40 @@ public class Pending {
         this.is_paid = is_paid;
     }
 
-    public Pending( int appID, String status, String result, String addition, String fee,String feeRequestDate, boolean is_paid) {
+    public Pending(int appID, String status, String result, String addition, String fee, int is_paid) {
         this.appID = appID;
         this.status = status;
         this.result = result;
         this.addition = addition;
         this.fee = fee;
-        this.feeRequestDate = feeRequestDate;
         this.is_paid = is_paid;
     }
 
-
-    public Pending(){
+    public Pending() {
 
     }
 
     public Object getByName(String attributeName) {
         switch (attributeName) {
-            case "PendindID": return pendingID;
-            case "AppID": return appID;
-            case "Status": return status;
-            case "Result": return result;
-            case "Addition": return addition;
-            case "Fee": return fee;
-            case "FeeRequestDate": return feeRequestDate;
-            case "IsPaid": return is_paid;
+            case "ID":
+                return pendingID;
+            case "APP_ID":
+                return appID;
+            case "STATUS":
+                return status;
+            case "RESULT":
+                return result;
+            case "ADDITION":
+                return addition;
+            case "FEE":
+                return fee;
+            case "FEE_REQUEST_DATE":
+                return feeRequestDate;
+            case "IS_PAID":
+                return is_paid;
 
-            default: return null;
+            default:
+                return null;
         }
     }
 
@@ -67,14 +73,6 @@ public class Pending {
 
     public void setFeeRequestDate(String feeRequestDate) {
         this.feeRequestDate = feeRequestDate;
-    }
-
-    public boolean isIs_paid() {
-        return is_paid;
-    }
-
-    public void setIs_paid(boolean is_paid) {
-        this.is_paid = is_paid;
     }
 
     public int getPendingID() {
@@ -117,5 +115,17 @@ public class Pending {
         this.addition = addition;
     }
 
-
+    @Override
+    public String toString() {
+        return "Pending{" +
+                "pendingID=" + pendingID +
+                ", appID=" + appID +
+                ", status='" + status + '\'' +
+                ", result='" + result + '\'' +
+                ", addition='" + addition + '\'' +
+                ", fee='" + fee + '\'' +
+                ", feeRequestDate='" + feeRequestDate + '\'' +
+                ", is_paid=" + is_paid +
+                '}';
+    }
 }

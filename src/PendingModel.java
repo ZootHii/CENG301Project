@@ -4,20 +4,21 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
-public class ApplicationModel implements ModelInterface {
+public class PendingModel implements ModelInterface {
     @Override
     public ResultSet select(Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT ");
-        sql.append("	ID, SENDER_ID, RECEIVER_ID, DATE,SENDER_TYPE,FORM_ID");
-        sql.append(" FROM Application ");
+        sql.append("	ID, APP_ID, STATUS, RESULT, ADDITION, FEE, FEE_REQUEST_DATE, IS_PAID ");
+        sql.append(" FROM Pending ");
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
 
         sql.append("ORDER BY ID");
         //System.out.println(sql.toString() + "\n");
+
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -32,22 +33,22 @@ public class ApplicationModel implements ModelInterface {
     public int insert(String fieldNames, List<Object> rows) throws Exception {
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
-        sql.append(" INSERT INTO Application (" + fieldNames + ") ");
+        sql.append(" INSERT INTO Pending (" + fieldNames + ") ");
         sql.append(" VALUES ");
 
         String[] fieldList = fieldNames.split(",");
 
         int rowCount = 0;
         for (int i = 0; i < rows.size(); i++) {
-            if (rows.get(i) instanceof Application) {
+            if (rows.get(i) instanceof Pending) {
                 rowCount++;
 
-                Application application = (Application) rows.get(i);
+                Pending pending = (Pending) rows.get(i);
 
                 sql.append("(");
                 for (int j = 0; j < fieldList.length; j++) {
                     String fieldName = fieldList[j].trim();
-                    sql.append(DatabaseUtilities.formatField(application.getByName(fieldName)));
+                    sql.append(DatabaseUtilities.formatField(pending.getByName(fieldName)));
                     if (j < fieldList.length - 1) {
                         sql.append(", ");
                     }
@@ -60,6 +61,7 @@ public class ApplicationModel implements ModelInterface {
             }
         }
         //System.out.println(sql.toString());
+
 
         // execute constructed SQL statement
         if (rowCount > 0) {
@@ -76,7 +78,7 @@ public class ApplicationModel implements ModelInterface {
     public int update(Map<String, Object> updateParameters, Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
-        sql.append(" UPDATE Application SET ");
+        sql.append(" UPDATE Pending SET ");
         int appendCount = 0;
         for (Map.Entry<String, Object> entry : updateParameters.entrySet()) {
             sql.append(entry.getKey() + " = " + DatabaseUtilities.formatField(entry.getValue()));
@@ -103,7 +105,7 @@ public class ApplicationModel implements ModelInterface {
     public int delete(Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
-        sql.append(" DELETE FROM Application ");
+        sql.append(" DELETE FROM Pending ");
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
@@ -125,26 +127,8 @@ public class ApplicationModel implements ModelInterface {
         return null;
     }
 
-    public static ResultSet selectLastID() throws Exception {
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT");
-        sql.append("	ID, SENDER_ID, RECEIVER_ID, FORM_ID ");
-        sql.append(" FROM Application ");
-
-        sql.append("ORDER BY ID");
-        //System.out.println(sql.toString() + "\n");
-
-        // execute constructed SQL statement
-        Connection connection = DatabaseUtilities.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
-        ResultSet result = preparedStatement.executeQuery();
-
-        return result;
-
-    }
-
     @Override
     public String toString() {
-        return "Application Model";
+        return "Pending Model";
     }
 }

@@ -3,7 +3,6 @@ import java.util.Map;
 
 public class ApplicationMenu implements ViewInterface {
 
-
     @Override
     public ViewData create(ModelData modelData, String functionName, String operationName) throws Exception {
 
@@ -21,7 +20,6 @@ public class ApplicationMenu implements ViewInterface {
         }
         while (choice == null || choice < 1 || choice > 2);
 
-
         switch (choice) {
             case 1: choosen = "Person";
                     operationName = "insert.gui";
@@ -32,8 +30,6 @@ public class ApplicationMenu implements ViewInterface {
 
             default: return new ViewData(null, null);
         }
-
-
 
         return new ViewData(choosen, operationName, new HashMap<>());
     }

@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class PersonModel implements ModelInterface {
 
-
     @Override
     public ResultSet select(Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
@@ -22,7 +21,6 @@ public class PersonModel implements ModelInterface {
 
         sql.append("ORDER BY ID");
         //System.out.println(sql.toString() + "\n");
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -81,8 +79,6 @@ public class PersonModel implements ModelInterface {
                 }
             }
         }
-        //System.out.println(sql.toString());
-       // System.out.println("sql is" + sql);
 
         // execute constructed SQL statement
         if (rowCount > 0) {
@@ -111,7 +107,6 @@ public class PersonModel implements ModelInterface {
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
         //System.out.println(sql.toString());
 
-
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
@@ -131,7 +126,6 @@ public class PersonModel implements ModelInterface {
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
         //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -156,7 +150,6 @@ public class PersonModel implements ModelInterface {
 
         sql.append("ORDER BY ID");
         //System.out.println(sql.toString() + "\n");
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();

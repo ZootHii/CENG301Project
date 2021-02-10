@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class MenuView implements ViewInterface{
+public class MenuView implements ViewInterface {
 
 
     @Override
@@ -22,14 +22,16 @@ public class MenuView implements ViewInterface{
         userInput.put("MenuChoice", choice);
 
         switch (choice.intValue()) {
-            case 1: choosen = "MainMenu"; break;
-            case 2: choosen = "Application";	break;
+            case 1:
+                choosen = "MainMenu";
+                break;
+            case 2:
+                choosen = "Application";
+                break;
             //case 3: operationName = "insert.gui";	break;
-            default: return new ViewData(null, null);
+            default:
+                return new ViewData(null, null);
         }
-
-
-
         return new ViewData(choosen, operationName = "");
     }
 }

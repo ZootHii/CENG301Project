@@ -19,7 +19,6 @@ public class Person {
     private int addressID;
     private String password;
 
-
     Person() {
 
     }

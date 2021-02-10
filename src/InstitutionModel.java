@@ -4,7 +4,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
-public class InstitutionModel implements ModelInterface{
+public class InstitutionModel implements ModelInterface {
+
     @Override
     public ResultSet select(Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
@@ -17,8 +18,6 @@ public class InstitutionModel implements ModelInterface{
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
 
         sql.append("ORDER BY ID");
-        System.out.println(sql.toString() + "\n");
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -28,6 +27,7 @@ public class InstitutionModel implements ModelInterface{
 
         return result;
     }
+
     public static ResultSet licenceCheck() throws Exception {
 
         // construct SQL statement
@@ -77,8 +77,6 @@ public class InstitutionModel implements ModelInterface{
                 }
             }
         }
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         if (rowCount > 0) {
@@ -127,7 +125,6 @@ public class InstitutionModel implements ModelInterface{
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
         //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();

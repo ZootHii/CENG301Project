@@ -1,7 +1,7 @@
 import java.sql.ResultSet;
 import java.util.*;
 
-public class AddressView implements ViewInterface{
+public class AddressView implements ViewInterface {
 
     public static int addressID;
 
@@ -54,8 +54,6 @@ public class AddressView implements ViewInterface{
                 System.out.print(district + "\t");
                 System.out.print(postalCode + "\t");
                 System.out.println(text);
-
-
             }
             resultSet.close();
         }
@@ -114,7 +112,6 @@ public class AddressView implements ViewInterface{
         String postalCode = getString("Postal Code? : ", true);
         String text = getString("Text explanation : ", true);
 
-
         Map<String, Object> whereParameters = new HashMap<>();
         if (addressID != null) whereParameters.put("ID", addressID);
         if (addressType != null) whereParameters.put("IS_TURKISH", addressType);
@@ -134,7 +131,6 @@ public class AddressView implements ViewInterface{
         return whereParameters;
     }
 
-
     ViewData selectGUI(ModelData modelData) throws Exception {
 
         Map<String, Object> parameters = new HashMap<>();
@@ -148,9 +144,7 @@ public class AddressView implements ViewInterface{
         parameters.put("fieldNames", "TYPE, COUNTRY, CITY,TOWN,DISTRICT,POSTAL_CODE,TEXT ");
 
         List<Object> rows = new ArrayList<>();
-
-
-        String addressType,country,city,town,district,postalCode,text;
+        String addressType, country, city, town, district, postalCode, text;
 
         System.out.println("Fields to insert:");
         addressType = getString("Home or Office? : ", true);
@@ -164,7 +158,7 @@ public class AddressView implements ViewInterface{
 
         if (addressType != null && country != null && city != null && town != null && district != null
                 && postalCode != null && text != null) {
-            rows.add(new Address(addressType, country,city,town,district,postalCode,text));
+            rows.add(new Address(addressType, country, city, town, district, postalCode, text));
         }
 
         parameters.put("rows", rows);

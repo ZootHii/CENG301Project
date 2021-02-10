@@ -28,7 +28,6 @@ public class ApplicationView implements ViewInterface {
                 return deleteGUI(modelData);
             case "getLicenceID":
                 return getLicenceID();
-
         }
 
         return new ViewData("MainMenu", "");
@@ -46,7 +45,6 @@ public class ApplicationView implements ViewInterface {
                 Date appDate = resultSet.getDate("DATE");
                 int senderType = resultSet.getInt("SENDER_TYPE");
                 int formID = resultSet.getInt("FORM_ID");
-
 
                 // Display values
                 System.out.print(appID + "\t");
@@ -94,7 +92,6 @@ public class ApplicationView implements ViewInterface {
         if (receiverID != null) whereParameters.put("RECEIVER_ID", receiverID);
         if (senderType != null) whereParameters.put("SENDER_TYPE", senderType);
         if (formID != null) whereParameters.put("FORM_ID", formID);
-
 
         return whereParameters;
     }
@@ -172,7 +169,6 @@ public class ApplicationView implements ViewInterface {
 
         ResultSet resultSet2 = PersonModel.selectTC();
 
-
         //PersonView.PersonTC_PN
         if (resultSet2 != null) {
             while (resultSet2.next()) {
@@ -180,7 +176,6 @@ public class ApplicationView implements ViewInterface {
                 if (resultSet2.getString("TC_PN").equals(PersonView.PersonTC_PN)) {
                     loggedSenderID = resultSet2.getInt("ID");
                 }
-
             }
             resultSet2.close();
         }
@@ -189,7 +184,6 @@ public class ApplicationView implements ViewInterface {
             while (resultSet1.next()) {
                 // Retrieve by column name
                 lastApplicationID = resultSet1.getInt("ID");
-
             }
             resultSet1.close();
         }
@@ -199,11 +193,9 @@ public class ApplicationView implements ViewInterface {
                 // Retrieve by column name
                 id_licence.put(resultSet.getString("LICENSE_NUMBER"), resultSet.getString("ID"));
                 lastInstitutionID = resultSet.getInt("ID");
-
             }
             resultSet.close();
         }
-        //System.out.println("last" + lastInstitutionID);
 
         licence = getString("Please enter the licence number of institution that you want to send: ", true);
 
@@ -221,10 +213,8 @@ public class ApplicationView implements ViewInterface {
 
                 whereParameters.put("ID", lastApplicationID);
 
-                // DEĞELERİN HEPSİNİ AL DAHA SONRA APPLİCATİON İNSERT  ET O DEĞERLERLE SONRA O APP İ PENDİNGE AT
                 parameters.put("updateParameters", updateParameters);
                 parameters.put("whereParameters", whereParameters);
-
 
                 return new ViewData("Form", "insert.gui", parameters2);
 
@@ -232,9 +222,7 @@ public class ApplicationView implements ViewInterface {
             } else {
                 licence = getString("Please enter the licence number of institution that you want to send: ", true);
             }
-
         }
-
     }
 
     ViewData updateGUI(ModelData modelData) throws Exception {
@@ -251,7 +239,6 @@ public class ApplicationView implements ViewInterface {
         if (receiverID != null) updateParameters.put("RECEIVER_ID", receiverID);
         if (senderType != null) updateParameters.put("SENDER_TYPE", senderType);
         if (formID != null) updateParameters.put("FORM_ID", formID);
-
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("updateParameters", updateParameters);

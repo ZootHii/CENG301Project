@@ -1,7 +1,7 @@
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginMenuView implements ViewInterface{
+public class LoginMenuView implements ViewInterface {
 
     public ViewData create(ModelData modelData, String functionName, String operationName) throws Exception {
         Integer choice;
@@ -20,15 +20,16 @@ public class LoginMenuView implements ViewInterface{
         userInput.put("MenuChoice", choice);
 
         switch (choice.intValue()) {
-            case 1: choosen = "MainMenu"; break;
-            case 2: choosen = "Application";	break;
+            case 1:
+                choosen = "MainMenu";
+                break;
+            case 2:
+                choosen = "Application";
+                break;
             //case 3: operationName = "insert.gui";	break;
-            default: return new ViewData(null, null);
+            default:
+                return new ViewData(null, null);
         }
-
-
-
         return new ViewData(choosen, operationName = "");
     }
-
 }

@@ -5,7 +5,6 @@ import java.util.*;
 
 public class PersonView implements ViewInterface {
 
-
     @Override
     public ViewData create(ModelData modelData, String functionName, String operationName) throws Exception {
         switch (operationName) {
@@ -71,7 +70,6 @@ public class PersonView implements ViewInterface {
             }
             resultSet.close();
         }
-
         return new ViewData("MainMenu", "");
     }
 
@@ -79,32 +77,29 @@ public class PersonView implements ViewInterface {
 
     private ViewData loginCheck() throws Exception {
         ResultSet resultSet = PersonModel.selectTC();
-        Map<String,String> tc_pass = new HashMap<>();
+        Map<String, String> tc_pass = new HashMap<>();
 
         if (resultSet != null) {
             while (resultSet.next()) {
                 // Retrieve by column name
-                tc_pass.put(resultSet.getString("TC_PN"),resultSet.getString("PASSWORD"));
+                tc_pass.put(resultSet.getString("TC_PN"), resultSet.getString("PASSWORD"));
             }
             resultSet.close();
         }
 
         PersonTC_PN = getString("Please enter your TC or PN : ", true);
-
         String pass = getString("Enter your password : ", true);
-        while(true) {
+
+        while (true) {
             if (tc_pass.containsKey(PersonTC_PN) && tc_pass.get(PersonTC_PN).equals(pass)) {
                 Map<String, Object> parameters = new HashMap<>();
-                return new ViewData("Institution", "select",parameters);
+                return new ViewData("Institution", "select", parameters);
             } else {
                 System.out.println("You entered wrong");
                 PersonTC_PN = getString("Please enter your TC or PN : ", true);
                 pass = getString("Enter your password : ", true);
-
             }
-
         }
-
     }
 
     int personID;
@@ -129,9 +124,7 @@ public class PersonView implements ViewInterface {
         parameters.put("updateParameters", updateParameters);
         parameters.put("whereParameters", whereParameters);
 
-
         return new ViewData("Person", "update", parameters); // UPDATE LAST PERSON'S ADDRESS_ID
-
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
@@ -196,15 +189,15 @@ public class PersonView implements ViewInterface {
         parameters.put("fieldNames", "IS_TURKISH, TC_PN, NAME,SURNAME,EMAIL,PHONE,PHONE2,FAX,GENDER,BIRTHDATE, PASSWORD");
 
         List<Object> rows = new ArrayList<>();
-        Integer isTurkish, gender,addressID;
-        String tcPn, name, surname,eMail,phoneNumber,phoneNumber2,fax,birthDate, password;
+        Integer isTurkish, gender, addressID;
+        String tcPn, name, surname, eMail, phoneNumber, phoneNumber2, fax, birthDate, password;
         ResultSet resultSet = PersonModel.selectTC();
         ArrayList<String> tcList = new ArrayList<>();
 
         if (resultSet != null) {
             while (resultSet.next()) {
                 // Retrieve by column name
-               tcList.add(resultSet.getString("TC_PN"));
+                tcList.add(resultSet.getString("TC_PN"));
 
             }
             resultSet.close();
@@ -228,7 +221,7 @@ public class PersonView implements ViewInterface {
         System.out.println();
 
         if (isTurkish != null && tcPn != null && name != null && surname != null && eMail != null && phoneNumber != null && phoneNumber2 != null && fax != null && gender != null && birthDate != null && password != null) {
-            rows.add(new Person(isTurkish, tcPn, name, surname, eMail, phoneNumber,phoneNumber2,fax,gender,birthDate, password));
+            rows.add(new Person(isTurkish, tcPn, name, surname, eMail, phoneNumber, phoneNumber2, fax, gender, birthDate, password));
         }
 
         parameters.put("rows", rows);

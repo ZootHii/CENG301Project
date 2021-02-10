@@ -9,7 +9,6 @@ public class Application {
     private int senderType;
     private int formID;
 
-
     Application() {
 
     }
@@ -81,8 +80,6 @@ public class Application {
         this.formID = formID;
     }
 
-
-
     public Object getByName(String attributeName) {
         switch (attributeName) {
             case "ID":
@@ -101,7 +98,6 @@ public class Application {
                 return null;
         }
     }
-
 
     @Override
     public String toString() {

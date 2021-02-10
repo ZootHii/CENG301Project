@@ -55,21 +55,6 @@ public class FormView implements ViewInterface {
         return new ViewData("MainMenu", "");
     }
 
-    /*public static int selectLastFormIDOperation(ModelData modelData) throws Exception {
-        int lastFormID = 0;
-        ResultSet resultSet = FormModel.selectlastFormID();
-
-        if (resultSet != null) {
-
-            lastFormID = resultSet.getInt("ID");
-
-            resultSet.close();
-        }
-        return lastFormID;
-
-    }*/
-
-
     // BURADA YANİ APP OLUŞTUR O FORMU VE DİĞER BİLGİLERİ ATARAK
     ViewData insertOperation(ModelData modelData) throws Exception {
         System.out.println("Number of inserted rows is " + modelData.recordCount);
