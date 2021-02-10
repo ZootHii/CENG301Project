@@ -1,4 +1,5 @@
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class InstitutionView implements ViewInterface {
@@ -22,6 +23,8 @@ public class InstitutionView implements ViewInterface {
                 return updateGUI(modelData);
             case "delete.gui":
                 return deleteGUI(modelData);
+            case "selectInstitutionOperation":
+                return selectInstitutionOperation(modelData);
         }
 
         return new ViewData("MainMenu", "");
@@ -29,6 +32,16 @@ public class InstitutionView implements ViewInterface {
 
     ViewData selectOperation(ModelData modelData) throws Exception {
 
+        printInstitutions(modelData);
+        return new ViewData("Application", "getLicenceID", new HashMap<>());
+    }
+    ViewData selectInstitutionOperation(ModelData modelData) throws Exception {
+
+        printInstitutions(modelData);
+        return new ViewData("Application", "getInstitutionLicenceID", new HashMap<>());
+    }
+
+    private void printInstitutions(ModelData modelData) throws SQLException {
         ResultSet resultSet = modelData.resultSet;
         if (resultSet != null) {
 
@@ -52,7 +65,6 @@ public class InstitutionView implements ViewInterface {
             System.out.println();
             resultSet.close();
         }
-        return new ViewData("Application", "getLicenceID", new HashMap<>());
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {

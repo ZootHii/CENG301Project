@@ -19,7 +19,7 @@ public class ModelViewControllerConsole {
         router.put("Form", new Controller(new FormView(), new FormModel()));
         router.put("Pending", new Controller(new PendingView(), new PendingModel()));
         router.put("Employee", new Controller(new EmployeeView(), new EmployeeModel()));
-
+        router.put("InstitutionForm", new Controller(new InstitutionFormView(), new InstitutionFormModel()));
         //router.put("ApplicationMenu", new Controller(new ApplicationMenu(), new NopModel())); // KULLANMIYORUZ ŞUAN
         //router.put("MainMenu", new Controller(new MainMenuView(), new NopModel())); // KULLANMIYORUZ ŞUAN
 

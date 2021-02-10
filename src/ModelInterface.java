@@ -14,6 +14,9 @@ interface ModelInterface {
 
     abstract ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception;
 
+    //abstract ResultSet selectInstitutionOperation(Map<String, Object> whereParameters) throws Exception;
+
+
     default ModelData execute(ViewData viewData) throws Exception {
         if (viewData.viewParameters == null) {
             return new ModelData();
@@ -61,6 +64,13 @@ interface ModelInterface {
                 return new ModelData(viewData.functionName, recordCount);
             }
             case "getLicenceID": {
+                Map<String, Object> whereParameters = (Map<String, Object>) (viewData.viewParameters.get("whereParameters"));
+
+                ResultSet resultSet = select(whereParameters);
+
+                return new ModelData(viewData.functionName, resultSet);
+            }
+            case "selectInstitutionOperation": {
                 Map<String, Object> whereParameters = (Map<String, Object>) (viewData.viewParameters.get("whereParameters"));
 
                 ResultSet resultSet = select(whereParameters);

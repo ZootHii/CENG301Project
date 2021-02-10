@@ -61,11 +61,23 @@ public class InterMenuView implements ViewInterface {
             System.out.println();
             Map<String, Object> userInput = new HashMap<>();
             userInput.put("MenuChoice", choice);
-
+            int choose;
             switch (choice.intValue()) {
                 case 1:
                     functionName = "Institution";
-                    operationName = "select";
+                    do {
+                        choose = getInteger("Please choose the option which you want to application as\n1- Person\n2-Institution\nYour answer : ", false);
+                    } while (choose < 1 || choose> 2);
+                    switch (choose){
+                        case 1:
+                            operationName = "select";
+                            break;
+                        case 2:
+                            operationName = "selectInstitutionOperation";
+                            break;
+                        default:
+                            break;
+                    }
                     return new ViewData(functionName, operationName, new HashMap<>());
                 case 2:
                     functionName = "Pending";

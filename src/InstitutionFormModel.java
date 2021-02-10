@@ -121,6 +121,22 @@ public class InstitutionFormModel implements ModelInterface{
         return rowCount;
     }
 
+    public static ResultSet selectLastInstitutionFormID() throws Exception {
+        // construct SQL statement
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT TOP 1");
+        sql.append("	ID ");
+        sql.append(" FROM InstitutionForm ");
+        sql.append("ORDER BY ID DESC");
+
+        // execute constructed SQL statement
+        Connection connection = DatabaseUtilities.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+        ResultSet result = preparedStatement.executeQuery();
+
+        return result;
+    }
+
     @Override
     public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
         return null;

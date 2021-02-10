@@ -102,7 +102,6 @@ public class PersonView implements ViewInterface {
                 if(resultSet1.next()) {
                     System.out.println("You logged in successfully as an authority!");
                     resultSet1.close();
-                    //TODO Return new viewdata employeemenu
                     return new ViewData("InterMenu", "auth");
                 }
                 else{

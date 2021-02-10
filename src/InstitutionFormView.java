@@ -57,9 +57,9 @@ public class InstitutionFormView implements ViewInterface{
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of inserted rows is " + modelData.recordCount);
+        System.out.print("Your institution form is created successfully ");
 
-        return new ViewData("MainMenu", "");
+        return new ViewData("Application", "insert.gui");
     }
 
     ViewData updateOperation(ModelData modelData) throws Exception {
@@ -102,29 +102,38 @@ public class InstitutionFormView implements ViewInterface{
 
     ViewData insertGUI(ModelData modelData) throws Exception {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("fieldNames", "InstitutionFormID , InstitutionID,Text,Addition,Title,EmployeeID");
+        parameters.put("fieldNames", " InstitutionID,Text,Addition,EmployeeID");
 
         List<Object> rows = new ArrayList<>();
+        String where = "P.TC_PN = " + PersonView.personTC_PN + " AND P.PASSWORD = " + PersonView.personPassword;
+        ResultSet resultSet = EmployeeModel.employeeLoginSelect(where);
+        int employeeID = 0;
+        String employeeTitle = "";
+        int employeeInstitutionID=0;
+        if (resultSet.next()) {
+            employeeID = resultSet.getInt("ID");
 
-        Integer insID, empID;
-        String text,addition;
-        do {
-            System.out.println("Fields to insert:");
-            insID = getInteger("Institution ID : ", true);
-            text = getString("Text : ", true);
-            addition = getString("Addition : ", true);
-            empID = getInteger("Employee ID : ", true);
-            System.out.println();
-
-            if (insID != null && text != null && addition != null && empID != null) {
-                rows.add(new InstitutionForm(insID, text,addition,empID));
-            }
+            employeeInstitutionID = resultSet.getInt("INS_ID");
+            resultSet.close();
         }
-        while (insID != null && text != null && addition != null && empID != null);
+        String text, addition;
+
+
+        System.out.println();
+        System.out.println("Please enter information below");
+        text = getString("State your reason for your application : ", false);
+        addition = getString("If you want to add something, please write here : ", true);
+        if (addition == null){
+            addition = "";
+        }
+
+        System.out.println();
+
+        rows.add(new InstitutionForm(employeeInstitutionID,text, addition,employeeID));
 
         parameters.put("rows", rows);
 
-        return new ViewData("Department", "insert", parameters);
+        return new ViewData("InstitutionForm", "insert", parameters);
     }
 
     ViewData updateGUI(ModelData modelData) throws Exception {

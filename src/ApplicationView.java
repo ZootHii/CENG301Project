@@ -9,7 +9,7 @@ public class ApplicationView implements ViewInterface {
     public static int globalReceiverID;
     public static int lastApplicationID;
     public static int loggedSenderID;
-
+    public static int lastInstitutionFormID;
     @Override
     public ViewData create(ModelData modelData, String functionName, String operationName) throws Exception {
         switch (operationName) {
@@ -31,6 +31,10 @@ public class ApplicationView implements ViewInterface {
                 return deleteGUI(modelData);
             case "getLicenceID":
                 return getLicenceID();
+            case "getInstitutionLicenceID":
+                return getInstitutionLicenceID();
+            case "insertInstitutionGUI":
+                return insertInstitutionGUI();
         }
 
         return new ViewData("MainMenu", "");
@@ -106,6 +110,54 @@ public class ApplicationView implements ViewInterface {
 
     ViewData insertGUI(ModelData modelData) throws Exception {
 
+        getInformation();
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("fieldNames", " SENDER_ID, RECEIVER_ID, SENDER_TYPE, FORM_ID ");
+
+        List<Object> rows = new ArrayList<>();
+
+        int senderID = loggedSenderID;
+        int receiverID = globalReceiverID;
+        int senderType = 1;
+        int formID = lastFormID;
+
+        System.out.println();
+        rows.add(new Application(senderID, receiverID, senderType, formID));
+
+        parameters.put("rows", rows);
+
+        return new ViewData("Application", "insert", parameters);
+    }
+    ViewData insertInstitutionGUI() throws Exception {
+
+        getInformation();
+        ResultSet resultSet4 = InstitutionFormModel.selectLastInstitutionFormID();
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("fieldNames", " SENDER_ID, RECEIVER_ID, SENDER_TYPE, FORM_ID ");
+
+        List<Object> rows = new ArrayList<>();
+        if (resultSet4 != null) {
+            while (resultSet4.next()) {
+                // Retrieve by column name
+                lastInstitutionFormID = resultSet4.getInt("ID");
+            }
+            resultSet4.close();
+        }
+        int senderID = loggedSenderID;
+        int receiverID = globalReceiverID;
+        int senderType = 1;
+        int formID = lastInstitutionFormID;
+
+        System.out.println();
+        rows.add(new Application(senderID, receiverID, senderType, formID));
+
+        parameters.put("rows", rows);
+
+        return new ViewData("Application", "insert", parameters);
+    }
+
+    private void getInformation() throws Exception {
         ResultSet resultSet1 = ApplicationModel.selectLastID();
         ResultSet resultSet2 = PersonModel.selectTC();
         ResultSet resultSet3 = FormModel.selectLastFormID();
@@ -137,26 +189,51 @@ public class ApplicationView implements ViewInterface {
             resultSet3.close();
         }
 
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("fieldNames", " SENDER_ID, RECEIVER_ID, SENDER_TYPE, FORM_ID ");
-
-        List<Object> rows = new ArrayList<>();
-
-        int senderID = loggedSenderID;
-        int receiverID = globalReceiverID;
-        int senderType = 1;
-        int formID = lastFormID;
-
-        System.out.println();
-        rows.add(new Application(senderID, receiverID, senderType, formID));
-
-        parameters.put("rows", rows);
-
-        return new ViewData("Application", "insert", parameters);
     }
 
     private ViewData getLicenceID() throws Exception {
 
+        Map<String, String> id_licence = getInfo();
+
+        while (true) {
+            if (id_licence.containsKey(globalLicenceNumber)) {
+                globalReceiverID = Integer.parseInt(id_licence.get(globalLicenceNumber));
+                Map<String, Object> updateParameters = new HashMap<>();
+                Map<String, Object> whereParameters = new HashMap<>();
+                Map<String, Object> parameters = new HashMap<>();
+
+                parameters.put("updateParameters", updateParameters);
+                parameters.put("whereParameters", whereParameters);
+
+                return new ViewData("Form", "insert.gui", parameters);
+
+            } else {
+                globalLicenceNumber = getString("Please enter the licence number of institution that you want to send: ", true);
+            }
+        }
+    }
+    private ViewData getInstitutionLicenceID() throws Exception {
+
+        Map<String, String> id_licence = getInfo();
+
+        while (true) {
+            if (id_licence.containsKey(globalLicenceNumber)) {
+                globalReceiverID = Integer.parseInt(id_licence.get(globalLicenceNumber));
+                Map<String, Object> updateParameters = new HashMap<>();
+                Map<String, Object> whereParameters = new HashMap<>();
+                Map<String, Object> parameters = new HashMap<>();
+
+                parameters.put("updateParameters", updateParameters);
+                parameters.put("whereParameters", whereParameters);
+
+                return new ViewData("InstitutionForm", "insert.gui", parameters);
+
+            } else {
+                globalLicenceNumber = getString("Please enter the licence number of institution that you want to send: ", true);
+            }
+        }
+    }
+    private Map<String, String> getInfo() throws Exception {
         ResultSet resultSet = InstitutionModel.licenceCheck();
         ResultSet resultSet1 = ApplicationModel.selectLastID();
         ResultSet resultSet2 = PersonModel.selectTC();
@@ -191,23 +268,7 @@ public class ApplicationView implements ViewInterface {
         }
 
         globalLicenceNumber = getString("Please enter the licence number of institution that you want to send: ", true);
-
-        while (true) {
-            if (id_licence.containsKey(globalLicenceNumber)) {
-                globalReceiverID = Integer.parseInt(id_licence.get(globalLicenceNumber));
-                Map<String, Object> updateParameters = new HashMap<>();
-                Map<String, Object> whereParameters = new HashMap<>();
-                Map<String, Object> parameters = new HashMap<>();
-
-                parameters.put("updateParameters", updateParameters);
-                parameters.put("whereParameters", whereParameters);
-
-                return new ViewData("Form", "insert.gui", parameters);
-
-            } else {
-                globalLicenceNumber = getString("Please enter the licence number of institution that you want to send: ", true);
-            }
-        }
+        return id_licence;
     }
 
     ViewData updateGUI(ModelData modelData) throws Exception {
