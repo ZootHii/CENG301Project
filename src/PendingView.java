@@ -62,8 +62,6 @@ public class PendingView implements ViewInterface {
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
-        System.out.println("Pending has been saved " + modelData.recordCount);
-
         return new ViewData("InterMenu", "");
     }
 
@@ -174,6 +172,7 @@ public class PendingView implements ViewInterface {
     private ViewData displayLoggedApplication() throws Exception {
 
         ResultSet resultSetLogged = PendingModel.selectLoggedApplication();
+        System.out.println("\nStatus\t\tResult\t\t\tAddition\tFee\t\t\tDate\t   Request Date\t Payment");
         if (resultSetLogged != null) {
             while (resultSetLogged.next()) {
                 if (resultSetLogged.getString("TC_PN").equals(PersonView.PersonTC_PN)) {
@@ -188,11 +187,18 @@ public class PendingView implements ViewInterface {
                     // Display values
                     System.out.print(status + "\t");
                     System.out.print(result + "\t");
-                    System.out.print(addition + "\t");
+                    if (addition.equals("")) {
+                        System.out.print("Empty" + "\t");
+                    } else
+                        System.out.print(addition + "\t");
                     System.out.print(fee + "\t");
                     System.out.print(date + "\t");
                     System.out.print(feeRequestDate + "\t");
-                    System.out.println(is_paid);
+                    if (is_paid.equals("1")) {
+                        System.out.println("Paid");
+                    } else
+                        System.out.println("Not paid");
+
                 }
             }
             resultSetLogged.close();

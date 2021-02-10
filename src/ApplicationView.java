@@ -61,8 +61,6 @@ public class ApplicationView implements ViewInterface {
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
-        System.out.println("Your " + modelData.recordCount + " Application has been saved");
-
         return new ViewData("Pending", "insert.gui");
     }
 

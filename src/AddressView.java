@@ -77,16 +77,14 @@ public class AddressView implements ViewInterface {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("whereParameters", getAll());
 
-        return new ViewData("Person", "selectlastaddressid", parameters); // PUT LAST ADDRESS ID TO PERSON ADDRESS ID
+        return new ViewData("Person", "selectlastaddressid", parameters);
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of inserted rows is " + modelData.recordCount);
-
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("whereParameters", getAll());
 
-        return new ViewData("Address", "selectlastaddressid", parameters); // SELECT LAST ID FROM ADDRESS
+        return new ViewData("Address", "selectlastaddressid", parameters);
     }
 
     ViewData updateOperation(ModelData modelData) throws Exception {
@@ -146,24 +144,24 @@ public class AddressView implements ViewInterface {
         List<Object> rows = new ArrayList<>();
         String addressType, country, city, town, district, postalCode, text;
 
-        System.out.println("Fields to insert:");
-        addressType = getString("Home or Office? : ", true);
-        country = getString("Country? : ", true);
-        city = getString("City? : ", true);
-        town = getString("Town? : ", true);
-        district = getString("District? : ", true);
-        postalCode = getString("Postal Code? : ", true);
-        text = getString("Text explanation : ", true);
+        System.out.println("Enter your address information:");
+        addressType = getString("Enter your address type(Ex:Home / Office) : ", true);
+        country = getString("Enter your country? : ", true);
+        city = getString("Enter your city? : ", true);
+        town = getString("Enter your town? : ", true);
+        district = getString("Enter your district? : ", true);
+        postalCode = getString("Enter your postal code? : ", true);
+        text = getString("Enter explanation for your address(Optional) : ", true);
         System.out.println();
 
         if (addressType != null && country != null && city != null && town != null && district != null
-                && postalCode != null && text != null) {
+                && postalCode != null) {
             rows.add(new Address(addressType, country, city, town, district, postalCode, text));
         }
 
         parameters.put("rows", rows);
 
-        return new ViewData("Address", "insert", parameters); // Adress insert ettikten sonra adress last id alıcaz
+        return new ViewData("Address", "insert", parameters);
     }
 
     ViewData updateGUI(ModelData modelData) throws Exception {

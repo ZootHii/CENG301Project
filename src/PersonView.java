@@ -128,7 +128,6 @@ public class PersonView implements ViewInterface {
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of inserted rows is " + modelData.recordCount);
 
         return new ViewData("Address", "insert.gui");
     }
@@ -202,23 +201,23 @@ public class PersonView implements ViewInterface {
             }
             resultSet.close();
         }
-        System.out.println("Fields to insert:");
-        isTurkish = getInteger("Is Turkish? : ", true);
-        tcPn = getString("TC // PN : ", true);
+        System.out.println("Enter your information ");
+        isTurkish = getInteger("Are you Turkish ?(1 for yes 0 for no) : ", true);
+        tcPn = getString("Enter your Turkish Identity number or Passport number : ", true);
         while (tcList.contains(tcPn)) {
-            System.out.println("This TC or PN is already registered");
-            tcPn = getString("TC // PN : ", true);
+            System.out.println("This Turkish Identity number or Passport number is already registered");
+            tcPn = getString("Enter your Turkish Identity number or Passport number again : ", true);
         }
         PersonTC_PN = tcPn;
-        password = getString("Password :", true);
-        name = getString("Name : ", true);
-        surname = getString("Surname : ", true);
-        eMail = getString("Email : ", true);
-        phoneNumber = getString("Phone Number : ", true);
-        phoneNumber2 = getString("Phone Number 2 : ", true);
-        fax = getString("Fax number : ", true);
-        gender = getInteger("Gender : ", true);
-        birthDate = getString("Birthdate : ", true);
+        password = getString("Create a password :", true);
+        name = getString("Enter your name : ", true);
+        surname = getString("Enter your surname : ", true);
+        eMail = getString("Enter your email : ", true);
+        phoneNumber = getString("Enter your phone number : ", true);
+        phoneNumber2 = getString("Enter your home phone number : ", true);
+        fax = getString("Enter your fax number : ", true);
+        gender = getInteger("Are you male or female ?(1 for male 0 for female) : ", true);
+        birthDate = getString("Enter your birthdate (Ex:yyyy-mm-dd): ", true);
         System.out.println();
 
         if (isTurkish != null && tcPn != null && name != null && surname != null && eMail != null && phoneNumber != null && phoneNumber2 != null && fax != null && gender != null && birthDate != null && password != null) {

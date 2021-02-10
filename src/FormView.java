@@ -55,9 +55,8 @@ public class FormView implements ViewInterface {
         return new ViewData("MainMenu", "");
     }
 
-    // BURADA YANİ APP OLUŞTUR O FORMU VE DİĞER BİLGİLERİ ATARAK
     ViewData insertOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of inserted rows is " + modelData.recordCount);
+        System.out.println("Your form is created successfully ");
 
         return new ViewData("Application", "insert.gui");
     }
