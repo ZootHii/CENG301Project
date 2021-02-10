@@ -20,7 +20,6 @@ public class AddressModel implements ModelInterface {
         }
 
         sql.append(" ORDER BY ID ");
-        System.out.println(sql.toString() + "\n");
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();

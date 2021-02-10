@@ -22,6 +22,8 @@ public class PendingView implements ViewInterface {
                 return updateGUI(modelData);
             case "delete.gui":
                 return deleteGUI(modelData);
+            case "displayLoggedApplication":
+                return displayLoggedApplication();
         }
 
         return new ViewData("MainMenu", "");
@@ -60,7 +62,7 @@ public class PendingView implements ViewInterface {
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
-        //System.out.println("Pending has been saved " + modelData.recordCount);
+        System.out.println("Pending has been saved " + modelData.recordCount);
 
         return new ViewData("InterMenu", "");
     }
@@ -96,7 +98,6 @@ public class PendingView implements ViewInterface {
         if (fee != null) whereParameters.put("FEE", fee);
         if (is_paid != null) whereParameters.put("IS_PAID", is_paid);
 
-
         return whereParameters;
     }
 
@@ -111,10 +112,16 @@ public class PendingView implements ViewInterface {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("fieldNames", "APP_ID,STATUS,RESULT,ADDITION,FEE,IS_PAID");
         List<Object> rows = new ArrayList<>();
-
+        ResultSet resultSet = ApplicationModel.selectLastID();
+        if (resultSet != null) {
+            while (resultSet.next()) {
+                // Retrieve by column name
+                ApplicationView.lastApplicationID = resultSet.getInt("ID");
+            }
+            resultSet.close();
+        }
         Integer is_paid, appID;
         String status, result, addition, fee;
-        ResultSet resultSet = ApplicationModel.selectLastID();
         appID = ApplicationView.lastApplicationID;
         status = "In process";
         result = "Not answered";
@@ -162,6 +169,36 @@ public class PendingView implements ViewInterface {
         parameters.put("whereParameters", getWhereParameters());
 
         return new ViewData("Pending", "delete", parameters);
+    }
+
+    private ViewData displayLoggedApplication() throws Exception {
+
+        ResultSet resultSetLogged = PendingModel.selectLoggedApplication();
+        if (resultSetLogged != null) {
+            while (resultSetLogged.next()) {
+                if (resultSetLogged.getString("TC_PN").equals(PersonView.PersonTC_PN)) {
+                    String status = resultSetLogged.getString("STATUS");
+                    String result = resultSetLogged.getString("RESULT");
+                    String addition = resultSetLogged.getString("ADDITION");
+                    String fee = resultSetLogged.getString("FEE");
+                    String date = resultSetLogged.getString("DATE");
+                    String feeRequestDate = resultSetLogged.getString("FEE_REQUEST_DATE");
+                    String is_paid = resultSetLogged.getString("IS_PAID");
+
+                    // Display values
+                    System.out.print(status + "\t");
+                    System.out.print(result + "\t");
+                    System.out.print(addition + "\t");
+                    System.out.print(fee + "\t");
+                    System.out.print(date + "\t");
+                    System.out.print(feeRequestDate + "\t");
+                    System.out.println(is_paid);
+                }
+            }
+            resultSetLogged.close();
+        }
+
+        return new ViewData("InterMenu", "");
     }
 
     @Override

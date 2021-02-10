@@ -106,7 +106,7 @@ public class ApplicationView implements ViewInterface {
 
     int lastInstitutionID;
     public static int lastApplicationID;
-    int loggedSenderID;
+    public static int loggedSenderID;
     int lastFormID;
 
     ViewData insertGUI(ModelData modelData) throws Exception {

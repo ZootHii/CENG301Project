@@ -21,7 +21,6 @@ public class ModelViewControllerConsole {
         router.put("Form", new Controller(new FormView(), new FormModel()));
         router.put("Pending", new Controller(new PendingView(), new PendingModel()));
 
-
         ViewData viewData = new ViewData("LoginMenu", "");
         do {
             // Model, View, and Controller

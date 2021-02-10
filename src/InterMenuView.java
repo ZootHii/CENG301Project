@@ -29,8 +29,10 @@ public class InterMenuView implements ViewInterface {
                 Map<String, Object> parameters = new HashMap<>();
                 return new ViewData(functionName, operationName, parameters);
             case 2:
-                functionName = "Application";
-                break;
+                functionName = "Pending";
+                operationName = "displayLoggedApplication";
+                Map<String, Object> parametersPending = new HashMap<>();
+                return new ViewData(functionName, operationName, parametersPending);
             case 3:
                 operationName = "";
                 break;

@@ -29,6 +29,25 @@ public class PendingModel implements ModelInterface {
         return result;
     }
 
+    public static ResultSet selectLoggedApplication() throws Exception {
+        // construct SQL statement
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT ");
+        sql.append("	* ");
+        sql.append(" FROM Application AS A INNER JOIN Pending AS P\n" +
+                "ON A.ID = P.APP_ID\n" +
+                "INNER JOIN Person AS PE\n" +
+                "ON A.SENDER_ID = PE.ID ");
+
+        // execute constructed SQL statement
+        Connection connection = DatabaseUtilities.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+
+        ResultSet result = preparedStatement.executeQuery();
+
+        return result;
+    }
+
     @Override
     public int insert(String fieldNames, List<Object> rows) throws Exception {
         // construct SQL statement
