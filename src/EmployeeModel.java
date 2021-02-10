@@ -74,6 +74,30 @@ public class EmployeeModel implements ModelInterface{
         return rowCount;
     }
 
+    public static ResultSet employeeLoginSelect(String where) throws Exception {
+        // construct SQL statement
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT ");
+        sql.append("	* ");
+        sql.append(" FROM Person AS P INNER JOIN Employees as E\n" +
+                "ON P.ID = E.PERSON_ID\n" +
+                "INNER JOIN Address AS A\n" +
+                "ON A.ID = P.ADDRESS_ID\n" +
+                "INNER JOIN Institution AS I\n" +
+                "ON E.INS_ID = I.ID ");
+
+        sql.append("WHERE "+where+" ");
+
+
+        // execute constructed SQL statement
+        Connection connection = DatabaseUtilities.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+        ResultSet result = preparedStatement.executeQuery();
+
+        return result;
+    }
+
+
     @Override
     public int update(Map<String, Object> updateParameters, Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement

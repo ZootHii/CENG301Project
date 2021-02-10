@@ -57,6 +57,7 @@ public class EmployeeView implements ViewInterface {
         return new ViewData("MainMenu", "");
     }
 
+
     ViewData insertOperation(ModelData modelData) throws Exception {
         System.out.println("Number of inserted rows is " + modelData.recordCount);
 
@@ -166,6 +167,7 @@ public class EmployeeView implements ViewInterface {
 
         return new ViewData("Department", "delete", parameters);
     }
+
 
     @Override
     public String toString() {

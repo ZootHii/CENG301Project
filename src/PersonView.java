@@ -89,12 +89,29 @@ public class PersonView implements ViewInterface {
         PersonTC_PN = getString("Please enter your TC or PN : ", true);
         String pass = getString("Enter your password : ", true);
 
+        Map<String, Object> parameters = new HashMap<>();
+        Map<String, Object> whereParameters = new HashMap<>();
+
+
         while (true) {
             if (tc_pass.containsKey(PersonTC_PN) && tc_pass.get(PersonTC_PN).equals(pass)) {
-                System.out.println();
-                System.out.println("You logged in successfully!");
-                System.out.println();
-                return new ViewData("InterMenu", "");
+                String where = "P.TC_PN = " + PersonTC_PN + " AND P.PASSWORD = " + pass;
+                ResultSet resultSet1 = EmployeeModel.employeeLoginSelect(where);
+
+                if(resultSet1.next()) {
+                    System.out.println("You logged in successfully as an authority!");
+                    resultSet1.close();
+                    //TODO Return new viewdata employeemenu
+                    return new ViewData("InterMenu", "auth");
+                }
+                else{
+                    System.out.println();
+                    System.out.println("You logged in successfully!");
+                    System.out.println();
+                    return new ViewData("InterMenu", "normal");
+                }
+
+
             } else {
                 System.out.println();
                 System.out.println("You entered wrong, please enter again");
@@ -217,11 +234,11 @@ public class PersonView implements ViewInterface {
         eMail = getString("Enter your email : ", false);
         phoneNumber = getString("Enter your phone number : ", false);
         phoneNumber2 = getString("Enter your home phone number : ", true);
-        if (phoneNumber2 == null){
+        if (phoneNumber2 == null) {
             phoneNumber2 = "";
         }
         fax = getString("Enter your fax number : ", true);
-        if (fax == null){
+        if (fax == null) {
             fax = "";
         }
         gender = getInteger("Are you male or female ?(1 for male 0 for female) : ", false);
