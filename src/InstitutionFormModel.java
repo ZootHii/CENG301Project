@@ -9,15 +9,13 @@ public class InstitutionFormModel implements ModelInterface{
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT ");
-        sql.append("	ID, INST_ID, TEXT,ADDITION,TITLE, EMPLOYEE_ID");
+        sql.append("	ID, INS_ID, TEXT,ADDITION,TITLE, EMPLOYEE_ID");
         sql.append(" FROM InstitutionForm");
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
 
         sql.append("ORDER BY ID");
-        //System.out.println(sql.toString() + "\n");
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -59,8 +57,6 @@ public class InstitutionFormModel implements ModelInterface{
                 }
             }
         }
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         if (rowCount > 0) {
@@ -108,8 +104,6 @@ public class InstitutionFormModel implements ModelInterface{
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -138,19 +132,7 @@ public class InstitutionFormModel implements ModelInterface{
     }
 
     @Override
-    public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
-        return null;
-    }
-
-
-    public ResultSet selectlastaddressid(Map<String, Object> whereParameters) throws Exception {
-        return null;
-    }
-
-    @Override
     public String toString() {
         return "InstitutionForm Model";
     }
-
-
 }

@@ -27,7 +27,7 @@ public class InstitutionView implements ViewInterface {
                 return selectInstitutionOperation(modelData);
         }
 
-        return new ViewData("MainMenu", "");
+        return null;
     }
 
     ViewData selectOperation(ModelData modelData) throws Exception {
@@ -35,6 +35,7 @@ public class InstitutionView implements ViewInterface {
         printInstitutions(modelData);
         return new ViewData("Application", "getLicenceID", new HashMap<>());
     }
+
     ViewData selectInstitutionOperation(ModelData modelData) throws Exception {
 
         printInstitutions(modelData);
@@ -65,57 +66,6 @@ public class InstitutionView implements ViewInterface {
             System.out.println();
             resultSet.close();
         }
-    }
-
-    ViewData insertOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of inserted rows is " + modelData.recordCount);
-
-        return new ViewData("MainMenu", "");
-    }
-
-    ViewData updateOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of updated rows is " + modelData.recordCount);
-
-        return new ViewData("MainMenu", "");
-    }
-
-    ViewData deleteOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of deleted rows is " + modelData.recordCount);
-
-        return new ViewData("MainMenu", "");
-    }
-
-    Map<String, Object> getWhereParameters() throws Exception {
-        System.out.println("Filter conditions:");
-        Integer instID = getInteger("Institution ID : ", true);
-        String licenseNumber = getString("License Number : ", true);
-        String name = getString("Name : ", true);
-        String eMail = getString("eMail : ", true);
-        String phone = getString("Phone : ", true);
-        String fax = getString("Fax : ", true);
-        Integer addressID = getInteger("Address ID : ", true);
-        Integer boundToID = getInteger("Bound To ID : ", true);
-        Integer type = getInteger("Type : ", true);
-
-        Map<String, Object> whereParameters = new HashMap<>();
-        if (instID != null) whereParameters.put("ID", instID);
-        if (licenseNumber != null) whereParameters.put("LICENSE_NUMBER", licenseNumber);
-        if (name != null) whereParameters.put("NAME", name);
-        if (eMail != null) whereParameters.put("EMAIL", eMail);
-        if (phone != null) whereParameters.put("PHONE", phone);
-        if (fax != null) whereParameters.put("FAX", fax);
-        if (addressID != null) whereParameters.put("ADDRESS_ID", addressID);
-        if (boundToID != null) whereParameters.put("BOUND_TO_ID", boundToID);
-        if (type != null) whereParameters.put("TYPE", type);
-
-        return whereParameters;
-    }
-
-    ViewData selectGUI(ModelData modelData) throws Exception {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Institution", "select", parameters);
     }
 
     ViewData insertGUI(ModelData modelData) throws Exception {
@@ -149,44 +99,37 @@ public class InstitutionView implements ViewInterface {
         return new ViewData("Institution", "insert", parameters);
     }
 
-    ViewData updateGUI(ModelData modelData) throws Exception {
-        System.out.println("Fields to update:");
-        String licenseNumber = getString("License Number : ", true);
-        String name = getString("Name : ", true);
-        String eMail = getString("eMail : ", true);
-        String phone = getString("Phone : ", true);
-        String fax = getString("Fax : ", true);
-        Integer addressID = getInteger("Address ID : ", true);
-        Integer boundToID = getInteger("Bound To ID : ", true);
-        Integer type = getInteger("Type : ", true);
-        System.out.println();
-
-        Map<String, Object> updateParameters = new HashMap<>();
-        if (licenseNumber != null) updateParameters.put("LICENSE_NUMBER", licenseNumber);
-        if (name != null) updateParameters.put("NAME", name);
-        if (eMail != null) updateParameters.put("EMAIL", eMail);
-        if (phone != null) updateParameters.put("PHONE", phone);
-        if (fax != null) updateParameters.put("FAX", fax);
-        if (addressID != null) updateParameters.put("ADDRESS_ID", addressID);
-        if (boundToID != null) updateParameters.put("BOUND_TO_ID", boundToID);
-        if (type != null) updateParameters.put("TYPE", type);
-
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("updateParameters", updateParameters);
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Institution", "update", parameters);
-    }
-
-    ViewData deleteGUI(ModelData modelData) throws Exception {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Institution", "delete", parameters);
-    }
-
     @Override
     public String toString() {
         return "Institution View";
+    }
+
+
+    ViewData updateGUI(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData deleteGUI(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData insertOperation(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData updateOperation(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData deleteOperation(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    Map<String, Object> getWhereParameters() throws Exception {
+        return null;
+    }
+
+    ViewData selectGUI(ModelData modelData) throws Exception {
+        return null;
     }
 }

@@ -20,8 +20,6 @@ public class ModelViewControllerConsole {
         router.put("Pending", new Controller(new PendingView(), new PendingModel()));
         router.put("Employee", new Controller(new EmployeeView(), new EmployeeModel()));
         router.put("InstitutionForm", new Controller(new InstitutionFormView(), new InstitutionFormModel()));
-        //router.put("ApplicationMenu", new Controller(new ApplicationMenu(), new NopModel())); // KULLANMIYORUZ ŞUAN
-        //router.put("MainMenu", new Controller(new MainMenuView(), new NopModel())); // KULLANMIYORUZ ŞUAN
 
         ViewData viewData = new ViewData("LoginMenu", "");
         do {
@@ -29,10 +27,6 @@ public class ModelViewControllerConsole {
             Controller controller = router.get(viewData.functionName);
             ModelData modelData = controller.executeModel(viewData);
             viewData = controller.getView(modelData, viewData.functionName, viewData.operationName);
-
-            //System.out.println();
-            //System.out.println("-------------------------------------------------");
-            //System.out.println();
         }
         while (viewData.functionName != null);
 

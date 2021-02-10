@@ -12,7 +12,7 @@ interface ModelInterface {
 
     abstract int delete(Map<String, Object> whereParameters) throws Exception;
 
-    abstract ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception;
+    //abstract ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception;
 
     //abstract ResultSet selectInstitutionOperation(Map<String, Object> whereParameters) throws Exception;
 
@@ -38,6 +38,15 @@ interface ModelInterface {
                 ResultSet resultSet = select(whereParameters);
 
                 return new ModelData(viewData.functionName, resultSet);
+            }
+
+            case "updatePersonWithAddress": {
+                Map<String, Object> updateParameters = (Map<String, Object>) (viewData.viewParameters.get("updateParameters"));
+                Map<String, Object> whereParameters = (Map<String, Object>) (viewData.viewParameters.get("whereParameters"));
+
+                int recordCount = update(updateParameters, whereParameters);
+
+                return new ModelData(viewData.functionName, recordCount);
             }
 
             case "insert": {

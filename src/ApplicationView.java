@@ -8,8 +8,9 @@ public class ApplicationView implements ViewInterface {
     public static String globalLicenceNumber;
     public static int globalReceiverID;
     public static int lastApplicationID;
-    public static int loggedSenderID;
+    public static int globalLoggedSenderID;
     public static int lastInstitutionFormID;
+
     @Override
     public ViewData create(ModelData modelData, String functionName, String operationName) throws Exception {
         switch (operationName) {
@@ -30,96 +31,48 @@ public class ApplicationView implements ViewInterface {
             case "delete.gui":
                 return deleteGUI(modelData);
             case "getLicenceID":
-                return getLicenceID();
+                return getLicenceID(); // add new operation we could not handle with modelData at first
             case "getInstitutionLicenceID":
-                return getInstitutionLicenceID();
+                return getInstitutionLicenceID(); // add new operation we could not handle with modelData at first
             case "insertInstitutionGUI":
-                return insertInstitutionGUI();
+                return insertInstitutionGUI(); // add new operation we could not handle with modelData at first
         }
 
         return new ViewData("MainMenu", "");
     }
 
     ViewData selectOperation(ModelData modelData) throws Exception {
-        ResultSet resultSet = modelData.resultSet;
-
-        if (resultSet != null) {
-            while (resultSet.next()) {
-                // Retrieve by column name
-                int appID = resultSet.getInt("ID");
-                int senderID = resultSet.getInt("SENDER_ID");
-                int receiverID = resultSet.getInt("RECEIVER_ID");
-                Date appDate = resultSet.getDate("DATE");
-                int senderType = resultSet.getInt("SENDER_TYPE");
-                int formID = resultSet.getInt("FORM_ID");
-
-                // Display values
-                System.out.print(appID + "\t");
-                System.out.print(senderID + "\t");
-                System.out.print(receiverID + "\t");
-                System.out.print(appDate + "\t");
-                System.out.print(senderType + "\t");
-                System.out.println(formID);
-            }
-            resultSet.close();
-        }
-
-        return new ViewData("MainMenu", "");
+        return null;
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
         return new ViewData("Pending", "insert.gui");
     }
 
-    ViewData updateOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of updated rows is " + modelData.recordCount);
-
-        return new ViewData("MainMenu", "");
-    }
-
-    ViewData deleteOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of deleted rows is " + modelData.recordCount);
-
-        return new ViewData("MainMenu", "");
-    }
-
-    Map<String, Object> getWhereParameters() throws Exception {
-        System.out.println("Filter conditions:");
-        Integer appID = getInteger("Application ID : ", true);
-        Integer senderID = getInteger("Sender ID : ", true);
-        Integer receiverID = getInteger("Receiver ID : ", true);
-        Integer senderType = getInteger("Sender Type : ", true);
-        Integer formID = getInteger("Form ID : ", true);
-
-        Map<String, Object> whereParameters = new HashMap<>();
-        if (appID != null) whereParameters.put("ID", appID);
-        if (senderID != null) whereParameters.put("SENDER_ID", senderID);
-        if (receiverID != null) whereParameters.put("RECEIVER_ID", receiverID);
-        if (senderType != null) whereParameters.put("SENDER_TYPE", senderType);
-        if (formID != null) whereParameters.put("FORM_ID", formID);
-
-        return whereParameters;
-    }
-
-    ViewData selectGUI(ModelData modelData) throws Exception {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Application", "select", parameters);
-    }
-
+    // insert gui for PersonForm to Application // Form class is actually PersonClass but we defined Form at first
     ViewData insertGUI(ModelData modelData) throws Exception {
 
         getInformation();
+
+        ResultSet resultSet = FormModel.selectLastFormID();
+
+        if (resultSet != null) {
+            while (resultSet.next()) {
+                // Retrieve by column name
+                lastFormID = resultSet.getInt("ID");
+            }
+            resultSet.close();
+        }
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("fieldNames", " SENDER_ID, RECEIVER_ID, SENDER_TYPE, FORM_ID ");
 
         List<Object> rows = new ArrayList<>();
 
-        int senderID = loggedSenderID;
+        // get necessary values from global values
+        int senderID = globalLoggedSenderID;
         int receiverID = globalReceiverID;
-        int senderType = 1;
+        int senderType = 1; // sender type is always 1 refer to Online
         int formID = lastFormID;
 
         System.out.println();
@@ -129,24 +82,31 @@ public class ApplicationView implements ViewInterface {
 
         return new ViewData("Application", "insert", parameters);
     }
+
+    // insert gui for InstitutionForm to Application
     ViewData insertInstitutionGUI() throws Exception {
 
         getInformation();
-        ResultSet resultSet4 = InstitutionFormModel.selectLastInstitutionFormID();
+
+        ResultSet resultSet = InstitutionFormModel.selectLastInstitutionFormID();
+
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("fieldNames", " SENDER_ID, RECEIVER_ID, SENDER_TYPE, FORM_ID ");
 
         List<Object> rows = new ArrayList<>();
-        if (resultSet4 != null) {
-            while (resultSet4.next()) {
+
+        if (resultSet != null) {
+            while (resultSet.next()) {
                 // Retrieve by column name
-                lastInstitutionFormID = resultSet4.getInt("ID");
+                lastInstitutionFormID = resultSet.getInt("ID");
             }
-            resultSet4.close();
+            resultSet.close();
         }
-        int senderID = loggedSenderID;
+
+        // get necessary values from global values
+        int senderID = globalLoggedSenderID;
         int receiverID = globalReceiverID;
-        int senderType = 1;
+        int senderType = 1; // sender type is always 1 refer to Online
         int formID = lastInstitutionFormID;
 
         System.out.println();
@@ -157,43 +117,47 @@ public class ApplicationView implements ViewInterface {
         return new ViewData("Application", "insert", parameters);
     }
 
+    // Get necessary information
     private void getInformation() throws Exception {
         ResultSet resultSet1 = ApplicationModel.selectLastID();
         ResultSet resultSet2 = PersonModel.selectTC();
-        ResultSet resultSet3 = FormModel.selectLastFormID();
 
-        //PersonView.PersonTC_PN
+        if (resultSet1.next()) {
+            // Retrieve by column name
+            lastApplicationID = resultSet1.getInt("ID");
+
+            resultSet1.close();
+        }
+
         if (resultSet2 != null) {
             while (resultSet2.next()) {
                 // Retrieve by column name
-                if (resultSet2.getString("TC_PN").equals(PersonView.personTC_PN)) {
-                    loggedSenderID = resultSet2.getInt("ID");
+                if (resultSet2.getString("TC_PN").equals(PersonView.personTC_PN)) { // personTC_PN equals logged person TC or Passport Number
+                    globalLoggedSenderID = resultSet2.getInt("ID"); // so logged person has unique TC_PN and we get ID by using this TC_PN
                 }
             }
             resultSet2.close();
         }
-
-        if (resultSet1 != null) {
-            while (resultSet1.next()) {
-                // Retrieve by column name
-                lastApplicationID = resultSet1.getInt("ID");
-            }
-            resultSet1.close();
-        }
-
-        if (resultSet3 != null) {
-            while (resultSet3.next()) {
-                // Retrieve by column name
-                lastFormID = resultSet3.getInt("ID");
-            }
-            resultSet3.close();
-        }
-
     }
 
     private ViewData getLicenceID() throws Exception {
 
-        Map<String, String> id_licence = getInfo();
+        getInformation();
+
+        ResultSet resultSet = InstitutionModel.licenceCheck();
+
+        Map<String, String> id_licence = new HashMap<>();
+
+        if (resultSet != null) {
+            while (resultSet.next()) {
+                // Retrieve by column name
+                id_licence.put(resultSet.getString("LICENSE_NUMBER"), resultSet.getString("ID"));
+                lastInstitutionID = resultSet.getInt("ID");
+            }
+            resultSet.close();
+        }
+
+        globalLicenceNumber = getString("Please enter the licence number of institution that you want to send: ", true);
 
         while (true) {
             if (id_licence.containsKey(globalLicenceNumber)) {
@@ -212,9 +176,25 @@ public class ApplicationView implements ViewInterface {
             }
         }
     }
+
     private ViewData getInstitutionLicenceID() throws Exception {
 
-        Map<String, String> id_licence = getInfo();
+        getInformation();
+
+        ResultSet resultSet = InstitutionModel.licenceCheck();
+
+        Map<String, String> id_licence = new HashMap<>();
+
+        if (resultSet != null) {
+            while (resultSet.next()) {
+                // Retrieve by column name
+                id_licence.put(resultSet.getString("LICENSE_NUMBER"), resultSet.getString("ID"));
+                lastInstitutionID = resultSet.getInt("ID");
+            }
+            resultSet.close();
+        }
+
+        globalLicenceNumber = getString("Please enter the licence number of institution that you want to send: ", true);
 
         while (true) {
             if (id_licence.containsKey(globalLicenceNumber)) {
@@ -233,75 +213,33 @@ public class ApplicationView implements ViewInterface {
             }
         }
     }
-    private Map<String, String> getInfo() throws Exception {
-        ResultSet resultSet = InstitutionModel.licenceCheck();
-        ResultSet resultSet1 = ApplicationModel.selectLastID();
-        ResultSet resultSet2 = PersonModel.selectTC();
-
-        Map<String, String> id_licence = new HashMap<>();
-
-        if (resultSet != null) {
-            while (resultSet.next()) {
-                // Retrieve by column name
-                id_licence.put(resultSet.getString("LICENSE_NUMBER"), resultSet.getString("ID"));
-                lastInstitutionID = resultSet.getInt("ID");
-            }
-            resultSet.close();
-        }
-
-        if (resultSet1 != null) {
-            while (resultSet1.next()) {
-                // Retrieve by column name
-                lastApplicationID = resultSet1.getInt("ID");
-            }
-            resultSet1.close();
-        }
-
-        if (resultSet2 != null) {
-            while (resultSet2.next()) {
-                // Retrieve by column name
-                if (resultSet2.getString("TC_PN").equals(PersonView.personTC_PN)) {
-                    loggedSenderID = resultSet2.getInt("ID");
-                }
-            }
-            resultSet2.close();
-        }
-
-        globalLicenceNumber = getString("Please enter the licence number of institution that you want to send: ", true);
-        return id_licence;
-    }
-
-    ViewData updateGUI(ModelData modelData) throws Exception {
-        System.out.println("Fields to update:");
-        Integer senderID = getInteger("Sender ID : ", true);
-        Integer receiverID = getInteger("Receiver ID : ", true);
-        Integer senderType = getInteger("Sender Type : ", true);
-        Integer formID = getInteger("Form ID : ", true);
-
-        System.out.println();
-
-        Map<String, Object> updateParameters = new HashMap<>();
-        if (senderID != null) updateParameters.put("SENDER_ID", senderID);
-        if (receiverID != null) updateParameters.put("RECEIVER_ID", receiverID);
-        if (senderType != null) updateParameters.put("SENDER_TYPE", senderType);
-        if (formID != null) updateParameters.put("FORM_ID", formID);
-
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("updateParameters", updateParameters);
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Application", "update", parameters);
-    }
-
-    ViewData deleteGUI(ModelData modelData) throws Exception {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Application", "delete", parameters);
-    }
 
     @Override
     public String toString() {
         return "Application View";
+    }
+
+    ViewData updateGUI(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData updateOperation(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData deleteOperation(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    Map<String, Object> getWhereParameters() throws Exception {
+        return null;
+    }
+
+    ViewData selectGUI(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData deleteGUI(ModelData modelData) throws Exception {
+        return null;
     }
 }

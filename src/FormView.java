@@ -25,75 +25,13 @@ public class FormView implements ViewInterface {
                 return deleteGUI(modelData);
         }
 
-        return new ViewData("MainMenu", "");
-    }
-
-    ViewData selectOperation(ModelData modelData) throws Exception {
-        ResultSet resultSet = modelData.resultSet;
-
-        if (resultSet != null) {
-            while (resultSet.next()) {
-                // Retrieve by column name
-                int formID = resultSet.getInt("ID");
-                String text = resultSet.getString("TEXT");
-                String addition = resultSet.getString("ADDITION");
-                int type = resultSet.getInt("TYPE");
-                int returnType = resultSet.getInt("RETURN_TYPE");
-
-                // Display values
-                System.out.print(formID + "\t");
-                System.out.print(text + "\t");
-                System.out.print(addition + "\t");
-                System.out.print(type + "\t");
-                System.out.println(returnType);
-            }
-            resultSet.close();
-        }
-
-        return new ViewData("MainMenu", "");
+        return null;
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
         System.out.print("Your form is created successfully ");
 
         return new ViewData("Application", "insert.gui");
-    }
-
-    ViewData updateOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of updated rows is " + modelData.recordCount);
-
-        return new ViewData("MainMenu", "");
-    }
-
-    ViewData deleteOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of deleted rows is " + modelData.recordCount);
-
-        return new ViewData("MainMenu", "");
-    }
-
-    Map<String, Object> getWhereParameters() throws Exception {
-        System.out.println("Filter conditions:");
-        Integer formID = getInteger("FormID : ", true);
-        String text = getString("Text : ", true);
-        String addition = getString(" Addition : ", true);
-        Integer type = getInteger(" Type : ", true);
-        Integer returnType = getInteger(" ReturnType : ", true);
-
-        Map<String, Object> whereParameters = new HashMap<>();
-        if (formID != null) whereParameters.put("FormID", formID);
-        if (text != null) whereParameters.put("Text", text);
-        if (addition != null) whereParameters.put("Addition", addition);
-        if (type != null) whereParameters.put("Type", type);
-        if (returnType != null) whereParameters.put("Return Type", returnType);
-
-        return whereParameters;
-    }
-
-    ViewData selectGUI(ModelData modelData) throws Exception {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Form", "select", parameters);
     }
 
     ViewData insertGUI(ModelData modelData) throws Exception {
@@ -103,13 +41,13 @@ public class FormView implements ViewInterface {
         List<Object> rows = new ArrayList<>();
 
         String text, addition;
-        Integer type, return_type;
+        int type, return_type;
 
         System.out.println();
         System.out.println("Please enter information below");
         text = getString("State your reason for your application : ", false);
         addition = getString("If you want to add something, please write here : ", true);
-        if (addition == null){
+        if (addition == null) {
             addition = "";
         }
         type = 1; // always person because we did not make for institution
@@ -123,36 +61,37 @@ public class FormView implements ViewInterface {
         return new ViewData("Form", "insert", parameters);
     }
 
-    ViewData updateGUI(ModelData modelData) throws Exception {
-        System.out.println("Fields to update:");
-        String text = getString("Text : ", true);
-        String addition = getString(" Addition : ", true);
-        Integer type = getInteger(" Type : ", true);
-        Integer returnType = getInteger(" ReturnType : ", true);
-        System.out.println();
-
-        Map<String, Object> updateParameters = new HashMap<>();
-        if (text != null) updateParameters.put("Text", text);
-        if (addition != null) updateParameters.put("Addition", addition);
-        if (type != null) updateParameters.put("Type", type);
-        if (returnType != null) updateParameters.put("Return Type", returnType);
-
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("updateParameters", updateParameters);
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Form", "update", parameters);
-    }
-
-    ViewData deleteGUI(ModelData modelData) throws Exception {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Form", "delete", parameters);
-    }
-
     @Override
     public String toString() {
         return "Form View";
+    }
+
+    // not used but implements
+    ViewData deleteGUI(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData updateGUI(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData updateOperation(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData deleteOperation(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    Map<String, Object> getWhereParameters() throws Exception {
+        return null;
+    }
+
+    ViewData selectGUI(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData selectOperation(ModelData modelData) throws Exception {
+        return null;
     }
 }

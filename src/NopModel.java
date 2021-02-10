@@ -25,11 +25,6 @@ public class NopModel implements ModelInterface {
 	}
 
 	@Override
-	public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
-		return null;
-	}
-
-	@Override
 	public String toString() {
 		return "No Operation Model";
 	}

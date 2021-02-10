@@ -120,20 +120,15 @@ public class ApplicationModel implements ModelInterface {
     public static ResultSet selectLastID() throws Exception {
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
-        String sql = " SELECT" +
+        String sql = " SELECT TOP 1" +
                 "	ID, SENDER_ID, RECEIVER_ID, FORM_ID " +
                 " FROM Application " +
-                "ORDER BY ID";
+                "ORDER BY ID DESC";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet result = preparedStatement.executeQuery();
 
         return result;
 
-    }
-
-    @Override
-    public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
-        return null;
     }
 
     @Override

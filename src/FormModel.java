@@ -115,39 +115,16 @@ public class FormModel implements ModelInterface {
         return rowCount;
     }
 
-    @Override
-    public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
-        // construct SQL statement
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT TOP 1");
-        sql.append("	ID ");
-        sql.append(" FROM PersonForm ");
-
-        List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
-        sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-
-        sql.append("ORDER BY ID DESC");
-
-        // execute constructed SQL statement
-        Connection connection = DatabaseUtilities.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
-        DatabaseUtilities.setWhereStatementParameters(preparedStatement, whereParameterList);
-        ResultSet result = preparedStatement.executeQuery();
-
-        return result;
-    }
-
     public static ResultSet selectLastFormID() throws Exception {
         // construct SQL statement
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT TOP 1");
-        sql.append("	ID ");
-        sql.append(" FROM PersonForm ");
-        sql.append("ORDER BY ID DESC");
-
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+        String sql = " SELECT TOP 1" +
+                "	ID " +
+                " FROM PersonForm " +
+                "ORDER BY ID DESC";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet result = preparedStatement.executeQuery();
 
         return result;

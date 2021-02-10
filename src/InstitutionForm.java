@@ -1,4 +1,5 @@
 public class InstitutionForm {
+
     private int instFormID;
     private int instID;
     private String text;
@@ -68,7 +69,7 @@ public class InstitutionForm {
         switch (attributeName) {
             case "ID":
                 return instFormID;
-            case "INST_ID":
+            case "INS_ID":
                 return instID;
             case "TEXT":
                 return text;

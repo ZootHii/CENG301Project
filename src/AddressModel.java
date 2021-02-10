@@ -33,33 +33,6 @@ public class AddressModel implements ModelInterface {
     }
 
     @Override
-    public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
-        // construct SQL statement
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT ");
-        sql.append("	ID, TYPE, COUNTRY, CITY, TOWN, DISTRICT, POSTAL_CODE, TEXT ");
-        sql.append(" FROM Address ");
-
-        List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
-        if (!whereParameterList.isEmpty() || !whereParameters.isEmpty()) {
-            sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        }
-
-        sql.append(" ORDER BY ID ");
-        System.out.println(sql.toString() + "\n");
-
-        // execute constructed SQL statement
-        Connection connection = DatabaseUtilities.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
-        if (!whereParameterList.isEmpty() || !whereParameters.isEmpty()) {
-            DatabaseUtilities.setWhereStatementParameters(preparedStatement, whereParameterList);
-        }
-
-        ResultSet result = preparedStatement.executeQuery();
-        return result;
-    }
-
-    @Override
     public int insert(String fieldNames, List<Object> rows) throws Exception {
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
@@ -143,5 +116,22 @@ public class AddressModel implements ModelInterface {
         preparedStatement.close();
 
         return rowCount;
+    }
+
+    // SELECT LAST ID FROM ADDRESS FOR LATER USING
+    public static ResultSet selectLastAddressID() throws Exception {
+        // construct SQL statement
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT TOP 1");
+        sql.append("    ID, TYPE, COUNTRY, CITY, TOWN, DISTRICT, POSTAL_CODE, TEXT ");
+        sql.append(" FROM Address ");
+        sql.append(" ORDER BY ID DESC ");
+
+        // execute constructed SQL statement
+        Connection connection = DatabaseUtilities.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+        ResultSet result = preparedStatement.executeQuery();
+
+        return result;
     }
 }

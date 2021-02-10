@@ -26,53 +26,20 @@ public class PersonView implements ViewInterface {
                 return updateGUI(modelData);
             case "delete.gui":
                 return deleteGUI(modelData);
-            case "selectLastID":
-                return selectLastIDOperation(modelData);
+            case "selectLastPersonIDOperation":
+                return selectLastPersonIDOperation();
             case "loginCheck":
                 return loginCheck();
 
         }
-        return new ViewData("MainMenu", "");
+        return null;
     }
 
-    ViewData selectOperation(ModelData modelData) throws Exception {
-        ResultSet resultSet = modelData.resultSet;
+    ViewData updateOperation(ModelData modelData) throws Exception {
+        System.out.println("You have been successfully registered! ");
+        System.out.println();
 
-        if (resultSet != null) {
-            while (resultSet.next()) {
-                // Retrieve by column name
-                int personID = resultSet.getInt("ID");
-                int isTurkish = resultSet.getInt("IS_TURKISH");
-                String tcPn = resultSet.getString("TC_PN");
-                String name = resultSet.getString("NAME");
-                String surname = resultSet.getString("SURNAME");
-                String eMail = resultSet.getString("EMAIL");
-                String phoneNumber = resultSet.getString("PHONE");
-                String phoneNumber2 = resultSet.getString("PHONE2");
-                String fax = resultSet.getString("FAX");
-                int gender = resultSet.getInt("GENDER");
-                Date birthDate = resultSet.getDate("BIRTHDATE");
-                int age = resultSet.getInt("AGE");
-                int addressID = resultSet.getInt("ADDRESS_ID");
-
-                // Display values
-                System.out.print(personID + "\t");
-                System.out.print(isTurkish + "\t");
-                System.out.print(tcPn + "\t");
-                System.out.print(name + "\t");
-                System.out.print(surname + "\t");
-                System.out.print(eMail + "\t");
-                System.out.print(phoneNumber + "\t");
-                System.out.print(phoneNumber2 + "\t");
-                System.out.print(fax + "\t");
-                System.out.print(gender + "\t");
-                System.out.print(birthDate + "\t");
-                System.out.print(age + "\t");
-                System.out.println(addressID);
-            }
-            resultSet.close();
-        }
-        return new ViewData("MainMenu", "");
+        return new ViewData("InterMenu", "normal");
     }
 
     private ViewData loginCheck() throws Exception {
@@ -93,18 +60,17 @@ public class PersonView implements ViewInterface {
         Map<String, Object> parameters = new HashMap<>();
         Map<String, Object> whereParameters = new HashMap<>();
 
-
         while (true) {
             if (tc_pass.containsKey(personTC_PN) && tc_pass.get(personTC_PN).equals(personPassword)) {
                 String where = "P.TC_PN = " + personTC_PN + " AND P.PASSWORD = " + personPassword;
                 ResultSet resultSet1 = EmployeeModel.employeeLoginSelect(where);
 
-                if(resultSet1.next()) {
+                if (resultSet1.next()) {
+                    System.out.println();
                     System.out.println("You logged in successfully as an authority!");
                     resultSet1.close();
                     return new ViewData("InterMenu", "auth");
-                }
-                else{
+                } else {
                     System.out.println();
                     System.out.println("You logged in successfully!");
                     System.out.println();
@@ -122,8 +88,8 @@ public class PersonView implements ViewInterface {
         }
     }
 
-    private ViewData selectLastIDOperation(ModelData modelData) throws Exception {
-        ResultSet resultSet = modelData.resultSet;
+    private ViewData selectLastPersonIDOperation() throws Exception {
+        ResultSet resultSet = PersonModel.selectLastPersonID();
 
         if (resultSet != null) {
             while (resultSet.next()) {
@@ -132,6 +98,7 @@ public class PersonView implements ViewInterface {
             }
             resultSet.close();
         }
+
         Map<String, Object> updateParameters = new HashMap<>();
         Map<String, Object> whereParameters = new HashMap<>();
         Map<String, Object> parameters = new HashMap<>();
@@ -142,64 +109,8 @@ public class PersonView implements ViewInterface {
         parameters.put("updateParameters", updateParameters);
         parameters.put("whereParameters", whereParameters);
 
-        return new ViewData("Person", "update", parameters); // UPDATE LAST PERSON'S ADDRESS_ID
-    }
-
-    ViewData insertOperation(ModelData modelData) throws Exception {
-
-        return new ViewData("Address", "insert.gui");
-    }
-
-    ViewData updateOperation(ModelData modelData) throws Exception {
-        System.out.println("You have been successfully registered! ");
-        System.out.println();
-
-        return new ViewData("InterMenu", "");
-    }
-
-    ViewData deleteOperation(ModelData modelData) throws Exception {
-        System.out.println("Number of deleted rows is " + modelData.recordCount);
-
-        return new ViewData("MainMenu", "");
-    }
-
-    Map<String, Object> getWhereParameters() throws Exception {
-        System.out.println("Filter conditions:");
-        Integer personID = getInteger("Person ID : ", true);
-        Integer isTurkish = getInteger("Is Turkish? : ", true);
-        String tcPn = getString("TC // PN : ", true);
-        String name = getString("Name : ", true);
-        String surname = getString("Surname : ", true);
-        String eMail = getString("Email : ", true);
-        String phoneNumber = getString("Phone Number : ", true);
-        String phoneNumber2 = getString("Phone Number 2 : ", true);
-        String fax = getString("Fax number : ", true);
-        Integer gender = getInteger("Gender : ", true);
-        String birthDate = getString("Birthdate : ", true);
-        Integer age = getInteger("Age : ", true);
-
-        Map<String, Object> whereParameters = new HashMap<>();
-        if (personID != null) whereParameters.put("ID", personID);
-        if (isTurkish != null) whereParameters.put("IS_TURKISH", isTurkish);
-        if (tcPn != null) whereParameters.put("TC_PN", tcPn);
-        if (name != null) whereParameters.put("NAME", name);
-        if (surname != null) whereParameters.put("SURNAME", surname);
-        if (eMail != null) whereParameters.put("EMAIL", eMail);
-        if (phoneNumber != null) whereParameters.put("PHONE", phoneNumber);
-        if (phoneNumber2 != null) whereParameters.put("PHONE2", phoneNumber2);
-        if (fax != null) whereParameters.put("FAX", fax);
-        if (gender != null) whereParameters.put("GENDER", gender);
-        if (birthDate != null) whereParameters.put("BIRTHDATE", birthDate);
-        if (age != null) whereParameters.put("AGE", age);
-
-        return whereParameters;
-    }
-
-    ViewData selectGUI(ModelData modelData) throws Exception {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Person", "select", parameters);
+        PersonModel.updatePersonWithAddress(updateParameters, whereParameters);
+        return new ViewData("InterMenu", "normal"); // UPDATE LAST PERSON'S ADDRESS_ID
     }
 
     ViewData insertGUI(ModelData modelData) throws Exception {
@@ -245,7 +156,6 @@ public class PersonView implements ViewInterface {
         birthDate = getString("Enter your birthdate (Ex:yyyy-mm-dd): ", false);
         System.out.println();
 
-
         rows.add(new Person(isTurkish, tcPn, name, surname, eMail, phoneNumber, phoneNumber2, fax, gender, birthDate, password));
 
         parameters.put("rows", rows);
@@ -253,52 +163,37 @@ public class PersonView implements ViewInterface {
         return new ViewData("Person", "insert", parameters);
     }
 
-    ViewData updateGUI(ModelData modelData) throws Exception {
-        System.out.println("Fields to update:");
-        Integer personID = getInteger("Person ID : ", true);
-        Integer isTurkish = getInteger("Is Turkish? : ", true);
-        String tcPn = getString("TC / PN : ", true);
-        String password = getString("password : ", true);
-        String name = getString("Name : ", true);
-        String surname = getString("Surname : ", true);
-        String eMail = getString("Email : ", true);
-        String phoneNumber = getString("Phone Number : ", true);
-        String phoneNumber2 = getString("Phone Number 2 : ", true);
-        String fax = getString("Fax number : ", true);
-        Integer gender = getInteger("Gender : ", true);
-        String birthDate = getString("Birthdate : ", true);
-        System.out.println();
-
-        Map<String, Object> updateParameters = new HashMap<>();
-        if (personID != null) updateParameters.put("ID", personID);
-        if (isTurkish != null) updateParameters.put("IS_TURKISH", isTurkish);
-        if (tcPn != null) updateParameters.put("TC_PN", tcPn);
-        if (password != null) updateParameters.put("PASSWORD", password);
-        if (name != null) updateParameters.put("NAME", name);
-        if (surname != null) updateParameters.put("SURNAME", surname);
-        if (eMail != null) updateParameters.put("EMAIL", eMail);
-        if (phoneNumber != null) updateParameters.put("PHONE", phoneNumber);
-        if (phoneNumber2 != null) updateParameters.put("PHONE2", phoneNumber2);
-        if (fax != null) updateParameters.put("FAX", fax);
-        if (gender != null) updateParameters.put("GENDER", gender);
-        if (birthDate != null) updateParameters.put("BIRTHDATE", birthDate);
-
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("updateParameters", updateParameters);
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Person", "update", parameters);
-    }
-
-    ViewData deleteGUI(ModelData modelData) throws Exception {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("whereParameters", getWhereParameters());
-
-        return new ViewData("Person", "delete", parameters);
-    }
-
     @Override
     public String toString() {
         return "Person View";
+    }
+
+    ViewData insertOperation(ModelData modelData) throws Exception {
+
+        return new ViewData("Address", "insert.gui");
+    }
+
+    ViewData deleteOperation(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    Map<String, Object> getWhereParameters() throws Exception {
+        return null;
+    }
+
+    ViewData selectGUI(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData updateGUI(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData deleteGUI(ModelData modelData) throws Exception {
+        return null;
+    }
+
+    ViewData selectOperation(ModelData modelData) throws Exception {
+        return null;
     }
 }

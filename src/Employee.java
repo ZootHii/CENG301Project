@@ -1,4 +1,5 @@
 public class Employee {
+
     private int empID;
     private int personID;
     private int insID;
@@ -7,9 +8,7 @@ public class Employee {
     private int authority;
     private int authID;
 
-
-
-    public Employee(){
+    public Employee() {
 
     }
 
@@ -87,6 +86,7 @@ public class Employee {
     public void setAuthID(int authID) {
         this.authID = authID;
     }
+
     public Object getByName(String attributeName) {
         switch (attributeName) {
             case "ID":

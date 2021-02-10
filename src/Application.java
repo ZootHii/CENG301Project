@@ -5,7 +5,7 @@ public class Application {
     private int appID;
     private int senderID;
     private int receiverID;
-    private Date appDate;
+    private String appDate;
     private int senderType;
     private int formID;
 
@@ -20,7 +20,7 @@ public class Application {
         this.formID = formID;
     }
 
-    public Application(int appID, int senderID, int receiverID, Date appDate, int senderType, int formID) {
+    public Application(int appID, int senderID, int receiverID, String appDate, int senderType, int formID) {
         this.appID = appID;
         this.senderID = senderID;
         this.receiverID = receiverID;
@@ -53,11 +53,11 @@ public class Application {
         this.receiverID = receiverID;
     }
 
-    public Date getAppDate() {
+    public String getAppDate() {
         return appDate;
     }
 
-    public void setAppDate(Date appDate) {
+    public void setAppDate(String appDate) {
         this.appDate = appDate;
     }
 
