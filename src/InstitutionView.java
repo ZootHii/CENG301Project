@@ -31,9 +31,9 @@ public class InstitutionView implements ViewInterface {
 
         ResultSet resultSet = modelData.resultSet;
         if (resultSet != null) {
-            System.out.println("\tList of Institutions");
-            System.out.println("\t--------------------");
-            System.out.println("\tLicense Name  Email");
+            System.out.println("\nList of Institutions");
+            System.out.println("--------------------");
+            System.out.println("License  Name  Email");
             while (resultSet.next()) {
                 // Retrieve by column name
                 String licenseNumber = resultSet.getString("LICENSE_NUMBER");
@@ -41,16 +41,15 @@ public class InstitutionView implements ViewInterface {
                 String eMail = resultSet.getString("EMAIL");
 
                 // Display value
-
-                System.out.print("\t" + licenseNumber + " ");
-                System.out.print("\t" + name + "  ");
+                System.out.print(licenseNumber);
+                System.out.print("\t\t" + name + "  ");
                 System.out.println(eMail);
+
             }
+            System.out.println();
             resultSet.close();
         }
-        Map<String, Object> parameters = new HashMap<>();
-        //parameters.put("whereParameters", getWhereParameters());
-        return new ViewData("Application", "getLicenceID", parameters);
+        return new ViewData("Application", "getLicenceID", new HashMap<>());
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
@@ -106,7 +105,7 @@ public class InstitutionView implements ViewInterface {
 
     ViewData insertGUI(ModelData modelData) throws Exception {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("fieldNames", "LICENSE_NUMBER, NAME, EMAIL,PHONE,FAX,ADDRESS_ID,BOUND_TO_ID,TYPE");
+        parameters.put("fieldNames", " LICENSE_NUMBER, NAME, EMAIL, PHONE, FAX, ADDRESS_ID, BOUND_TO_ID, TYPE ");
 
         List<Object> rows = new ArrayList<>();
 
@@ -175,5 +174,4 @@ public class InstitutionView implements ViewInterface {
     public String toString() {
         return "Institution View";
     }
-
 }

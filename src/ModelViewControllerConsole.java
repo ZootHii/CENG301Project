@@ -12,14 +12,14 @@ public class ModelViewControllerConsole {
         Map<String, Controller> router = new HashMap<>();
         router.put("LoginMenu", new Controller(new LoginMenuView(), new NopModel()));
         router.put("InterMenu", new Controller(new InterMenuView(), new NopModel()));
-        router.put("MainMenu", new Controller(new MainMenuView(), new NopModel()));
         router.put("Application", new Controller(new ApplicationView(), new ApplicationModel()));
-        router.put("Institution", new Controller(new InstitutionView(), new InstitutionModel())); // AHMET
+        router.put("Institution", new Controller(new InstitutionView(), new InstitutionModel()));
         router.put("Person", new Controller(new PersonView(), new PersonModel()));
-        router.put("ApplicationMenu", new Controller(new ApplicationMenu(), new NopModel()));
         router.put("Address", new Controller(new AddressView(), new AddressModel()));
         router.put("Form", new Controller(new FormView(), new FormModel()));
         router.put("Pending", new Controller(new PendingView(), new PendingModel()));
+        //router.put("ApplicationMenu", new Controller(new ApplicationMenu(), new NopModel())); // KULLANMIYORUZ ŞUAN
+        //router.put("MainMenu", new Controller(new MainMenuView(), new NopModel())); // KULLANMIYORUZ ŞUAN
 
         ViewData viewData = new ViewData("LoginMenu", "");
         do {

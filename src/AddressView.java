@@ -24,8 +24,8 @@ public class AddressView implements ViewInterface {
                 return updateGUI(modelData);
             case "delete.gui":
                 return deleteGUI(modelData);
-            case "selectlastaddressid":
-                return selectLastAddressIDOperation(modelData);
+            case "selectLastID":
+                return selectLastIDOperation(modelData);
         }
         return new ViewData("MainMenu", "");
     }
@@ -61,9 +61,7 @@ public class AddressView implements ViewInterface {
         return new ViewData("MainMenu", "");
     }
 
-
-    ViewData selectLastAddressIDOperation(ModelData modelData) throws Exception {
-
+    ViewData selectLastIDOperation(ModelData modelData) throws Exception {
         ResultSet resultSet = modelData.resultSet;
 
         if (resultSet != null) {
@@ -77,14 +75,14 @@ public class AddressView implements ViewInterface {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("whereParameters", getAll());
 
-        return new ViewData("Person", "selectlastaddressid", parameters);
+        return new ViewData("Person", "selectLastID", parameters);
     }
 
     ViewData insertOperation(ModelData modelData) throws Exception {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("whereParameters", getAll());
 
-        return new ViewData("Address", "selectlastaddressid", parameters);
+        return new ViewData("Address", "selectLastID", parameters);
     }
 
     ViewData updateOperation(ModelData modelData) throws Exception {
@@ -124,13 +122,11 @@ public class AddressView implements ViewInterface {
     }
 
     Map<String, Object> getAll() throws Exception {
-
         Map<String, Object> whereParameters = new HashMap<>();
         return whereParameters;
     }
 
     ViewData selectGUI(ModelData modelData) throws Exception {
-
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("whereParameters", getWhereParameters());
 

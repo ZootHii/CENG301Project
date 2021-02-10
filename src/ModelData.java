@@ -32,6 +32,5 @@ public class ModelData {
 	@Override
 	public String toString() {
 		return "Model Data (" + modelName + ")";
-	}	
-	
+	}
 }

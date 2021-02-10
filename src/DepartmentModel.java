@@ -1,7 +1,6 @@
 import java.sql.*;
 import java.util.*;
 
-
 class DepartmentModel implements ModelInterface {
 
     @Override
@@ -16,8 +15,6 @@ class DepartmentModel implements ModelInterface {
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
 
         sql.append("ORDER BY DepartmentID");
-        //System.out.println(sql.toString() + "\n");
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -59,8 +56,6 @@ class DepartmentModel implements ModelInterface {
                 }
             }
         }
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         if (rowCount > 0) {
@@ -87,8 +82,6 @@ class DepartmentModel implements ModelInterface {
         }
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -108,8 +101,6 @@ class DepartmentModel implements ModelInterface {
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -122,7 +113,7 @@ class DepartmentModel implements ModelInterface {
     }
 
     @Override
-    public ResultSet selectlastaddressid(Map<String, Object> whereParameters) throws Exception {
+    public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
         return null;
     }
 

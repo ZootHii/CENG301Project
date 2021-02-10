@@ -1,7 +1,6 @@
 import java.sql.*;
 import java.util.*;
 
-
 class DatabaseUtilities {
 
     private static Connection connection = null;
@@ -88,5 +87,4 @@ class DatabaseUtilities {
 
         return value.toString();
     }
-
 }

@@ -29,14 +29,12 @@ public class InstitutionModel implements ModelInterface {
     }
 
     public static ResultSet licenceCheck() throws Exception {
-
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT ");
         sql.append("	ID, LICENSE_NUMBER ");
         sql.append(" FROM Institution ");
         sql.append(" ORDER BY ID");
-        //System.out.println(sql.toString() + "\n");
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -101,10 +99,9 @@ public class InstitutionModel implements ModelInterface {
                 sql.append(", ");
             }
         }
+
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -124,7 +121,6 @@ public class InstitutionModel implements ModelInterface {
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -137,7 +133,7 @@ public class InstitutionModel implements ModelInterface {
     }
 
     @Override
-    public ResultSet selectlastaddressid(Map<String, Object> whereParameters) throws Exception {
+    public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
         return null;
     }
 

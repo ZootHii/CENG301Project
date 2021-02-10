@@ -1,11 +1,14 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
 
 public class ApplicationView implements ViewInterface {
-    public static String licence;
-    public static int globalreceiverID;
+
+    int lastInstitutionID;
+    int lastFormID;
+    public static String globalLicenceNumber;
+    public static int globalReceiverID;
+    public static int lastApplicationID;
+    public static int loggedSenderID;
 
     @Override
     public ViewData create(ModelData modelData, String functionName, String operationName) throws Exception {
@@ -84,7 +87,6 @@ public class ApplicationView implements ViewInterface {
         Integer senderType = getInteger("Sender Type : ", true);
         Integer formID = getInteger("Form ID : ", true);
 
-
         Map<String, Object> whereParameters = new HashMap<>();
         if (appID != null) whereParameters.put("ID", appID);
         if (senderID != null) whereParameters.put("SENDER_ID", senderID);
@@ -102,16 +104,11 @@ public class ApplicationView implements ViewInterface {
         return new ViewData("Application", "select", parameters);
     }
 
-    int lastInstitutionID;
-    public static int lastApplicationID;
-    public static int loggedSenderID;
-    int lastFormID;
-
     ViewData insertGUI(ModelData modelData) throws Exception {
 
         ResultSet resultSet1 = ApplicationModel.selectLastID();
         ResultSet resultSet2 = PersonModel.selectTC();
-        ResultSet resultSet3 = FormModel.selectlastFormID();
+        ResultSet resultSet3 = FormModel.selectLastFormID();
 
         //PersonView.PersonTC_PN
         if (resultSet2 != null) {
@@ -141,16 +138,14 @@ public class ApplicationView implements ViewInterface {
         }
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("fieldNames", "SENDER_ID, RECEIVER_ID, SENDER_TYPE, FORM_ID");
+        parameters.put("fieldNames", " SENDER_ID, RECEIVER_ID, SENDER_TYPE, FORM_ID ");
 
         List<Object> rows = new ArrayList<>();
 
-        Integer senderID, receiverID, formID, senderType;
-
-        senderID = loggedSenderID;
-        receiverID = globalreceiverID;
-        senderType = 1;
-        formID = lastFormID;
+        int senderID = loggedSenderID;
+        int receiverID = globalReceiverID;
+        int senderType = 1;
+        int formID = lastFormID;
 
         System.out.println();
         rows.add(new Application(senderID, receiverID, senderType, formID));
@@ -164,28 +159,9 @@ public class ApplicationView implements ViewInterface {
 
         ResultSet resultSet = InstitutionModel.licenceCheck();
         ResultSet resultSet1 = ApplicationModel.selectLastID();
-        Map<String, String> id_licence = new HashMap<>();
-
         ResultSet resultSet2 = PersonModel.selectTC();
 
-        //PersonView.PersonTC_PN
-        if (resultSet2 != null) {
-            while (resultSet2.next()) {
-                // Retrieve by column name
-                if (resultSet2.getString("TC_PN").equals(PersonView.PersonTC_PN)) {
-                    loggedSenderID = resultSet2.getInt("ID");
-                }
-            }
-            resultSet2.close();
-        }
-
-        if (resultSet1 != null) {
-            while (resultSet1.next()) {
-                // Retrieve by column name
-                lastApplicationID = resultSet1.getInt("ID");
-            }
-            resultSet1.close();
-        }
+        Map<String, String> id_licence = new HashMap<>();
 
         if (resultSet != null) {
             while (resultSet.next()) {
@@ -196,11 +172,29 @@ public class ApplicationView implements ViewInterface {
             resultSet.close();
         }
 
-        licence = getString("Please enter the licence number of institution that you want to send: ", true);
+        if (resultSet1 != null) {
+            while (resultSet1.next()) {
+                // Retrieve by column name
+                lastApplicationID = resultSet1.getInt("ID");
+            }
+            resultSet1.close();
+        }
+
+        if (resultSet2 != null) {
+            while (resultSet2.next()) {
+                // Retrieve by column name
+                if (resultSet2.getString("TC_PN").equals(PersonView.PersonTC_PN)) {
+                    loggedSenderID = resultSet2.getInt("ID");
+                }
+            }
+            resultSet2.close();
+        }
+
+        globalLicenceNumber = getString("Please enter the licence number of institution that you want to send: ", true);
 
         while (true) {
-            if (id_licence.containsKey(licence)) {
-                globalreceiverID = Integer.parseInt(id_licence.get(licence));
+            if (id_licence.containsKey(globalLicenceNumber)) {
+                globalReceiverID = Integer.parseInt(id_licence.get(globalLicenceNumber));
                 Map<String, Object> updateParameters = new HashMap<>();
                 Map<String, Object> whereParameters = new HashMap<>();
                 Map<String, Object> parameters = new HashMap<>();
@@ -211,7 +205,7 @@ public class ApplicationView implements ViewInterface {
                 return new ViewData("Form", "insert.gui", parameters);
 
             } else {
-                licence = getString("Please enter the licence number of institution that you want to send: ", true);
+                globalLicenceNumber = getString("Please enter the licence number of institution that you want to send: ", true);
             }
         }
     }

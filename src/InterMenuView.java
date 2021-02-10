@@ -9,10 +9,10 @@ public class InterMenuView implements ViewInterface {
         Integer choice;
 
         do {
-            System.out.println("\n1. Send an application");
+            System.out.println("1. Send an application");
             System.out.println("2. Show my applications");
             System.out.println("3. Manage applications");
-            System.out.println("4. Back to main menu");
+            System.out.println("4. Back to login menu");
             System.out.println();
 
             choice = getInteger("Enter your choice : ", false);
@@ -26,13 +26,11 @@ public class InterMenuView implements ViewInterface {
             case 1:
                 functionName = "Institution";
                 operationName = "select";
-                Map<String, Object> parameters = new HashMap<>();
-                return new ViewData(functionName, operationName, parameters);
+                return new ViewData(functionName, operationName, new HashMap<>());
             case 2:
                 functionName = "Pending";
                 operationName = "displayLoggedApplication";
-                Map<String, Object> parametersPending = new HashMap<>();
-                return new ViewData(functionName, operationName, parametersPending);
+                return new ViewData(functionName, operationName, new HashMap<>());
             case 3:
                 operationName = "";
                 break;

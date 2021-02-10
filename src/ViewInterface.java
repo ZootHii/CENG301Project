@@ -115,5 +115,4 @@ interface ViewInterface {
     }
 
     abstract ViewData create(ModelData modelData, String functionName, String operationName) throws Exception;
-
 }

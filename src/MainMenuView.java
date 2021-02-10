@@ -7,6 +7,9 @@ class MainMenuView implements ViewInterface {
 
         Integer choice;
         do {
+
+            // KULLANMIYORUZ ŞUAN
+
             System.out.println("1. Show all Application");
             System.out.println("2. Show Application");
             System.out.println("3. Add an Application");

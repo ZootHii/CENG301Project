@@ -1,9 +1,10 @@
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.util.*;
 
 public class PersonView implements ViewInterface {
+
+    int personID;
+    public static String PersonTC_PN;
 
     @Override
     public ViewData create(ModelData modelData, String functionName, String operationName) throws Exception {
@@ -24,8 +25,8 @@ public class PersonView implements ViewInterface {
                 return updateGUI(modelData);
             case "delete.gui":
                 return deleteGUI(modelData);
-            case "selectlastaddressid":
-                return selectLastAddressIDOperation(modelData);
+            case "selectLastID":
+                return selectLastIDOperation(modelData);
             case "loginCheck":
                 return loginCheck();
 
@@ -73,8 +74,6 @@ public class PersonView implements ViewInterface {
         return new ViewData("MainMenu", "");
     }
 
-    public static String PersonTC_PN;
-
     private ViewData loginCheck() throws Exception {
         ResultSet resultSet = PersonModel.selectTC();
         Map<String, String> tc_pass = new HashMap<>();
@@ -92,19 +91,21 @@ public class PersonView implements ViewInterface {
 
         while (true) {
             if (tc_pass.containsKey(PersonTC_PN) && tc_pass.get(PersonTC_PN).equals(pass)) {
-                Map<String, Object> parameters = new HashMap<>();
+                System.out.println();
+                System.out.println("You logged in successfully!");
+                System.out.println();
                 return new ViewData("InterMenu", "");
             } else {
-                System.out.println("You entered wrong");
+                System.out.println();
+                System.out.println("You entered wrong, please enter again");
+                System.out.println();
                 PersonTC_PN = getString("Please enter your TC or PN : ", true);
                 pass = getString("Enter your password : ", true);
             }
         }
     }
 
-    int personID;
-    private ViewData selectLastAddressIDOperation(ModelData modelData) throws Exception {
-
+    private ViewData selectLastIDOperation(ModelData modelData) throws Exception {
         ResultSet resultSet = modelData.resultSet;
 
         if (resultSet != null) {
@@ -134,6 +135,7 @@ public class PersonView implements ViewInterface {
 
     ViewData updateOperation(ModelData modelData) throws Exception {
         System.out.println("You have been successfully registered! ");
+        System.out.println();
 
         return new ViewData("InterMenu", "");
     }
@@ -197,17 +199,19 @@ public class PersonView implements ViewInterface {
             while (resultSet.next()) {
                 // Retrieve by column name
                 tcList.add(resultSet.getString("TC_PN"));
-
             }
             resultSet.close();
         }
+
         System.out.println("Enter your information ");
         isTurkish = getInteger("Are you Turkish ?(1 for yes 0 for no) : ", true);
         tcPn = getString("Enter your Turkish Identity number or Passport number : ", true);
+
         while (tcList.contains(tcPn)) {
             System.out.println("This Turkish Identity number or Passport number is already registered");
             tcPn = getString("Enter your Turkish Identity number or Passport number again : ", true);
         }
+
         PersonTC_PN = tcPn;
         password = getString("Create a password :", true);
         name = getString("Enter your name : ", true);
@@ -220,9 +224,7 @@ public class PersonView implements ViewInterface {
         birthDate = getString("Enter your birthdate (Ex:yyyy-mm-dd): ", true);
         System.out.println();
 
-        if (isTurkish != null && tcPn != null && name != null && surname != null && eMail != null && phoneNumber != null && phoneNumber2 != null && fax != null && gender != null && birthDate != null && password != null) {
-            rows.add(new Person(isTurkish, tcPn, name, surname, eMail, phoneNumber, phoneNumber2, fax, gender, birthDate, password));
-        }
+        rows.add(new Person(isTurkish, tcPn, name, surname, eMail, phoneNumber, phoneNumber2, fax, gender, birthDate, password));
 
         parameters.put("rows", rows);
 

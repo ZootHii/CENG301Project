@@ -21,5 +21,4 @@ public class ViewData {
     public String toString() {
         return "Function name = " + functionName + " / " + operationName + " : " + viewParameters.toString();
     }
-
 }

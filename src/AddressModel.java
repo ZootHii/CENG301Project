@@ -33,7 +33,7 @@ public class AddressModel implements ModelInterface {
     }
 
     @Override
-    public ResultSet selectlastaddressid(Map<String, Object> whereParameters) throws Exception {
+    public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT ");
@@ -115,8 +115,6 @@ public class AddressModel implements ModelInterface {
         }
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -136,8 +134,6 @@ public class AddressModel implements ModelInterface {
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();

@@ -6,6 +6,10 @@ public class Form {
     private int type;
     private int returnType;
 
+    public Form() {
+
+    }
+
     public Form(int formID, String text, String addition, int type, int returnType) {
         this.formID = formID;
         this.text = text;
@@ -19,10 +23,6 @@ public class Form {
         this.addition = addition;
         this.type = type;
         this.returnType = returnType;
-    }
-
-    public Form() {
-
     }
 
     public int getFormID() {
@@ -65,17 +65,6 @@ public class Form {
         this.returnType = returnType;
     }
 
-    @Override
-    public String toString() {
-        return "Form{" +
-                "formID=" + formID +
-                ", text='" + text + '\'' +
-                ", addition='" + addition + '\'' +
-                ", type=" + type +
-                ", returnType=" + returnType +
-                '}';
-    }
-
     public Object getByName(String attributeName) {
         switch (attributeName) {
             case "ID":
@@ -93,4 +82,14 @@ public class Form {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Form{" +
+                "formID=" + formID +
+                ", text='" + text + '\'' +
+                ", addition='" + addition + '\'' +
+                ", type=" + type +
+                ", returnType=" + returnType +
+                '}';
+    }
 }

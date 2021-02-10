@@ -36,6 +36,7 @@ public class LoginMenuView implements ViewInterface {
             default:
                 return new ViewData(null, null);
         }
+
         return new ViewData(functionName, operationName);
     }
 }

@@ -25,7 +25,7 @@ public class NopModel implements ModelInterface {
 	}
 
 	@Override
-	public ResultSet selectlastaddressid(Map<String, Object> whereParameters) throws Exception {
+	public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
 		return null;
 	}
 

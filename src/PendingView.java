@@ -44,7 +44,6 @@ public class PendingView implements ViewInterface {
                 String feeRequestDate = resultSet.getString("FEE_REQUEST_DATE");
                 String is_paid = resultSet.getString("IS_PAID");
 
-
                 // Display values
                 System.out.print(pendingID + "\t");
                 System.out.print(appID + "\t");
@@ -118,14 +117,13 @@ public class PendingView implements ViewInterface {
             }
             resultSet.close();
         }
-        Integer is_paid, appID;
-        String status, result, addition, fee;
-        appID = ApplicationView.lastApplicationID;
-        status = "In process";
-        result = "Not answered";
-        addition = "";
-        fee = "Not announced";
-        is_paid = 0;
+
+        int appID = ApplicationView.lastApplicationID;
+        String status = "In process";
+        String result = "Not answered";
+        String addition = "";
+        String fee = "Not announced";
+        int is_paid = 0;
         System.out.println();
 
         rows.add(new Pending(appID, status, result, addition, fee, is_paid));
@@ -134,7 +132,6 @@ public class PendingView implements ViewInterface {
     }
 
     ViewData updateGUI(ModelData modelData) throws Exception {
-
         Integer is_paid, appID;
         String status, result, addition, fee;
 
@@ -170,7 +167,6 @@ public class PendingView implements ViewInterface {
     }
 
     private ViewData displayLoggedApplication() throws Exception {
-
         ResultSet resultSetLogged = PendingModel.selectLoggedApplication();
         System.out.println("\nStatus\t\tResult\t\t\tAddition\tFee\t\t\tDate\t   Request Date\t Payment");
         if (resultSetLogged != null) {
@@ -189,18 +185,20 @@ public class PendingView implements ViewInterface {
                     System.out.print(result + "\t");
                     if (addition.equals("")) {
                         System.out.print("Empty" + "\t");
-                    } else
+                    } else {
                         System.out.print(addition + "\t");
+                    }
                     System.out.print(fee + "\t");
                     System.out.print(date + "\t");
                     System.out.print(feeRequestDate + "\t");
                     if (is_paid.equals("1")) {
                         System.out.println("Paid");
-                    } else
+                    } else {
                         System.out.println("Not paid");
-
+                    }
                 }
             }
+            System.out.println();
             resultSetLogged.close();
         }
 

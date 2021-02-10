@@ -1,6 +1,5 @@
 import java.util.Date;
 
-
 class Department {
 
     private short departmentID;
@@ -75,5 +74,4 @@ class Department {
     public String toString() {
         return departmentID + ", " + name + ", " + groupName + ", " + modifiedDate;
     }
-
 }

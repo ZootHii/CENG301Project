@@ -14,14 +14,12 @@ public class Application {
     }
 
     public Application(int senderID, int receiverID, int senderType, int formID) {
-        this.appID = appID;
         this.senderID = senderID;
         this.receiverID = receiverID;
-        this.appDate = appDate;
         this.senderType = senderType;
         this.formID = formID;
-
     }
+
     public Application(int appID, int senderID, int receiverID, Date appDate, int senderType, int formID) {
         this.appID = appID;
         this.senderID = senderID;
@@ -29,7 +27,6 @@ public class Application {
         this.appDate = appDate;
         this.senderType = senderType;
         this.formID = formID;
-
     }
 
     public int getAppID() {
@@ -108,7 +105,6 @@ public class Application {
                 ", appDate=" + appDate +
                 ", senderType=" + senderType +
                 ", formID=" + formID +
-
                 '}';
     }
 }

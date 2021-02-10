@@ -23,7 +23,6 @@ public class FormView implements ViewInterface {
                 return updateGUI(modelData);
             case "delete.gui":
                 return deleteGUI(modelData);
-            //case "getLicenceID": return deleteGUI(modelData);
         }
 
         return new ViewData("MainMenu", "");
@@ -40,7 +39,6 @@ public class FormView implements ViewInterface {
                 String addition = resultSet.getString("ADDITION");
                 int type = resultSet.getInt("TYPE");
                 int returnType = resultSet.getInt("RETURN_TYPE");
-
 
                 // Display values
                 System.out.print(formID + "\t");
@@ -107,16 +105,15 @@ public class FormView implements ViewInterface {
         String text, addition;
         Integer type, return_type;
 
-        System.out.println("Fields to insert:");
+        System.out.println();
+        System.out.println("Please enter information below");
         text = getString("State your reason for your application : ", true);
         addition = getString("If you want to add something, please write here : ", true);
         type = 1;
         return_type = getInteger("Return Type (If you want to read your response online press 1 otherwise 0): ", true);
         System.out.println();
 
-        if (text != null && addition != null && type != null && return_type != null) {
-            rows.add(new Form(text, addition, type, return_type));
-        }
+        rows.add(new Form(text, addition, type, return_type));
 
         parameters.put("rows", rows);
 

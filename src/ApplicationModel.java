@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ApplicationModel implements ModelInterface {
+
     @Override
     public ResultSet select(Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
@@ -17,7 +18,6 @@ public class ApplicationModel implements ModelInterface {
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
 
         sql.append("ORDER BY ID");
-        //System.out.println(sql.toString() + "\n");
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -59,7 +59,6 @@ public class ApplicationModel implements ModelInterface {
                 }
             }
         }
-        //System.out.println(sql.toString());
 
         // execute constructed SQL statement
         if (rowCount > 0) {
@@ -78,16 +77,16 @@ public class ApplicationModel implements ModelInterface {
         StringBuilder sql = new StringBuilder();
         sql.append(" UPDATE Application SET ");
         int appendCount = 0;
+
         for (Map.Entry<String, Object> entry : updateParameters.entrySet()) {
             sql.append(entry.getKey() + " = " + DatabaseUtilities.formatField(entry.getValue()));
             if (++appendCount < updateParameters.size()) {
                 sql.append(", ");
             }
         }
+
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -107,8 +106,6 @@ public class ApplicationModel implements ModelInterface {
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -120,27 +117,23 @@ public class ApplicationModel implements ModelInterface {
         return rowCount;
     }
 
-    @Override
-    public ResultSet selectlastaddressid(Map<String, Object> whereParameters) throws Exception {
-        return null;
-    }
-
     public static ResultSet selectLastID() throws Exception {
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT");
-        sql.append("	ID, SENDER_ID, RECEIVER_ID, FORM_ID ");
-        sql.append(" FROM Application ");
-
-        sql.append("ORDER BY ID");
-        //System.out.println(sql.toString() + "\n");
-
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+        String sql = " SELECT" +
+                "	ID, SENDER_ID, RECEIVER_ID, FORM_ID " +
+                " FROM Application " +
+                "ORDER BY ID";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet result = preparedStatement.executeQuery();
 
         return result;
 
+    }
+
+    @Override
+    public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
+        return null;
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PendingModel implements ModelInterface {
+
     @Override
     public ResultSet select(Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
@@ -17,8 +18,6 @@ public class PendingModel implements ModelInterface {
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
 
         sql.append("ORDER BY ID");
-        //System.out.println(sql.toString() + "\n");
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -31,18 +30,16 @@ public class PendingModel implements ModelInterface {
 
     public static ResultSet selectLoggedApplication() throws Exception {
         // construct SQL statement
-        StringBuilder sql = new StringBuilder();
-        sql.append(" SELECT ");
-        sql.append("	* ");
-        sql.append(" FROM Application AS A INNER JOIN Pending AS P\n" +
-                "ON A.ID = P.APP_ID\n" +
-                "INNER JOIN Person AS PE\n" +
-                "ON A.SENDER_ID = PE.ID ");
-
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+        String sql = " SELECT " +
+                "	* " +
+                " FROM Application AS A INNER JOIN Pending AS P\n" +
+                "ON A.ID = P.APP_ID\n" +
+                "INNER JOIN Person AS PE\n" +
+                "ON A.SENDER_ID = PE.ID ";
 
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet result = preparedStatement.executeQuery();
 
         return result;
@@ -79,7 +76,6 @@ public class PendingModel implements ModelInterface {
                 }
             }
         }
-        //System.out.println(sql.toString());
 
         // execute constructed SQL statement
         if (rowCount > 0) {
@@ -106,8 +102,6 @@ public class PendingModel implements ModelInterface {
         }
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -127,8 +121,6 @@ public class PendingModel implements ModelInterface {
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -141,7 +133,7 @@ public class PendingModel implements ModelInterface {
     }
 
     @Override
-    public ResultSet selectlastaddressid(Map<String, Object> whereParameters) throws Exception {
+    public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
         return null;
     }
 

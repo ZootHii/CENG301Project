@@ -12,8 +12,7 @@ interface ModelInterface {
 
     abstract int delete(Map<String, Object> whereParameters) throws Exception;
 
-    abstract ResultSet selectlastaddressid(Map<String, Object> whereParameters) throws Exception;
-
+    abstract ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception;
 
     default ModelData execute(ViewData viewData) throws Exception {
         if (viewData.viewParameters == null) {
@@ -29,7 +28,7 @@ interface ModelInterface {
                 return new ModelData(viewData.functionName, resultSet);
             }
 
-            case "selectlastaddressid": {
+            case "selectLastID": {
 
                 Map<String, Object> whereParameters = (Map<String, Object>) (viewData.viewParameters.get("whereParameters"));
 

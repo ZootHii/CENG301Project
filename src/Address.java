@@ -9,7 +9,8 @@ public class Address {
     private String postalCode;
     private String text;
 
-    Address(){ }
+    Address() {
+    }
 
     public Address(int addressID, String addressType, String country, String city, String town, String district, String postalCode, String text) {
         this.addressID = addressID;
@@ -118,6 +119,7 @@ public class Address {
                 return null;
         }
     }
+
     @Override
     public String toString() {
         return "Address{" +
@@ -131,6 +133,4 @@ public class Address {
                 ", text='" + text + '\'' +
                 '}';
     }
-
-
 }

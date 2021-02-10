@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FormModel implements ModelInterface {
+
     @Override
     public ResultSet select(Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
@@ -17,7 +18,6 @@ public class FormModel implements ModelInterface {
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
 
         sql.append("ORDER BY ID");
-        //System.out.println(sql.toString() + "\n");
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -59,8 +59,6 @@ public class FormModel implements ModelInterface {
                 }
             }
         }
-        //System.out.println(sql.toString());
-
 
         // execute constructed SQL statement
         if (rowCount > 0) {
@@ -87,7 +85,6 @@ public class FormModel implements ModelInterface {
         }
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -107,7 +104,6 @@ public class FormModel implements ModelInterface {
 
         List<Map.Entry<String, Object>> whereParameterList = DatabaseUtilities.createWhereParameterList(whereParameters);
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
-        //System.out.println(sql.toString());
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -120,7 +116,7 @@ public class FormModel implements ModelInterface {
     }
 
     @Override
-    public ResultSet selectlastaddressid(Map<String, Object> whereParameters) throws Exception {
+    public ResultSet selectLastID(Map<String, Object> whereParameters) throws Exception {
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT TOP 1");
@@ -131,8 +127,6 @@ public class FormModel implements ModelInterface {
         sql.append(DatabaseUtilities.prepareWhereStatement(whereParameterList));
 
         sql.append("ORDER BY ID DESC");
-        //System.out.println(sql.toString() + "\n");
-
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -143,14 +137,13 @@ public class FormModel implements ModelInterface {
         return result;
     }
 
-    public static ResultSet selectlastFormID() throws Exception {
+    public static ResultSet selectLastFormID() throws Exception {
         // construct SQL statement
         StringBuilder sql = new StringBuilder();
         sql.append(" SELECT TOP 1");
         sql.append("	ID ");
         sql.append(" FROM PersonForm ");
         sql.append("ORDER BY ID DESC");
-        //System.out.println(sql.toString() + "\n");
 
         // execute constructed SQL statement
         Connection connection = DatabaseUtilities.getConnection();
@@ -164,6 +157,4 @@ public class FormModel implements ModelInterface {
     public String toString() {
         return "Form Model";
     }
-
-
 }
