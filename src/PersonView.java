@@ -203,26 +203,31 @@ public class PersonView implements ViewInterface {
             resultSet.close();
         }
 
-        System.out.println("Enter your information ");
-        isTurkish = getInteger("Are you Turkish ?(1 for yes 0 for no) : ", true);
-        tcPn = getString("Enter your Turkish Identity number or Passport number : ", true);
-
+        System.out.println("Enter your information");
+        isTurkish = getInteger("Are you Turkish ?(1 for yes 0 for no) : ", false);
+        tcPn = getString("Enter your Turkish Identity number or Passport number : ", false);
         while (tcList.contains(tcPn)) {
             System.out.println("This Turkish Identity number or Passport number is already registered");
-            tcPn = getString("Enter your Turkish Identity number or Passport number again : ", true);
+            tcPn = getString("Enter your Turkish Identity number or Passport number again : ", false);
         }
-
         PersonTC_PN = tcPn;
-        password = getString("Create a password :", true);
-        name = getString("Enter your name : ", true);
-        surname = getString("Enter your surname : ", true);
-        eMail = getString("Enter your email : ", true);
-        phoneNumber = getString("Enter your phone number : ", true);
+        password = getString("Create a password : ", false);
+        name = getString("Enter your name : ", false);
+        surname = getString("Enter your surname : ", false);
+        eMail = getString("Enter your email : ", false);
+        phoneNumber = getString("Enter your phone number : ", false);
         phoneNumber2 = getString("Enter your home phone number : ", true);
+        if (phoneNumber2 == null){
+            phoneNumber2 = "";
+        }
         fax = getString("Enter your fax number : ", true);
-        gender = getInteger("Are you male or female ?(1 for male 0 for female) : ", true);
-        birthDate = getString("Enter your birthdate (Ex:yyyy-mm-dd): ", true);
+        if (fax == null){
+            fax = "";
+        }
+        gender = getInteger("Are you male or female ?(1 for male 0 for female) : ", false);
+        birthDate = getString("Enter your birthdate (Ex:yyyy-mm-dd): ", false);
         System.out.println();
+
 
         rows.add(new Person(isTurkish, tcPn, name, surname, eMail, phoneNumber, phoneNumber2, fax, gender, birthDate, password));
 

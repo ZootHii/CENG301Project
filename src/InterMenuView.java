@@ -9,16 +9,18 @@ public class InterMenuView implements ViewInterface {
         Integer choice;
 
         do {
-            System.out.println("1. Send an application");
-            System.out.println("2. Show my applications");
-            System.out.println("3. Manage applications");
-            System.out.println("4. Back to login menu");
+            System.out.println("--------APPLICATION MENU--------");
+            System.out.println("\t1. Send an application");
+            System.out.println("\t2. Show my applications");
+            System.out.println("\t3. Manage applications");
+            System.out.print("\t4. Back to login menu");
+            System.out.println("\n--------------------------------");
             System.out.println();
 
             choice = getInteger("Enter your choice : ", false);
         }
         while (choice == null || choice < 1 || choice > 4);
-
+        System.out.println();
         Map<String, Object> userInput = new HashMap<>();
         userInput.put("MenuChoice", choice);
 

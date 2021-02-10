@@ -7,16 +7,17 @@ public class LoginMenuView implements ViewInterface {
         Integer choice;
 
         do {
-            System.out.println("WELCOME TO INFORMATION RIGHTS SYSTEM");
-            System.out.println("1. Login");
-            System.out.println("2. Register");
-            System.out.println("3. Exit");
+            System.out.println("\n-----WELCOME TO INFORMATION RIGHTS SYSTEM-----");
+            System.out.println("\t\t\t\t1. Login");
+            System.out.println("\t\t\t\t2. Register");
+            System.out.print("\t\t\t\t3. Exit");
+            System.out.println("\n----------------------------------------------");
             System.out.println();
 
             choice = getInteger("Enter your choice : ", false);
         }
         while (choice == null || choice < 1 || choice > 3);
-
+        System.out.println();
         Map<String, Object> userInput = new HashMap<>();
         userInput.put("MenuChoice", choice);
 

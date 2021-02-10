@@ -31,9 +31,10 @@ public class InstitutionView implements ViewInterface {
 
         ResultSet resultSet = modelData.resultSet;
         if (resultSet != null) {
-            System.out.println("\nList of Institutions");
-            System.out.println("--------------------");
-            System.out.println("License  Name  Email");
+
+            System.out.println("------------------------------------");
+            System.out.println("License     Name     Email");
+            System.out.println("------------------------------------");
             while (resultSet.next()) {
                 // Retrieve by column name
                 String licenseNumber = resultSet.getString("LICENSE_NUMBER");
@@ -42,10 +43,12 @@ public class InstitutionView implements ViewInterface {
 
                 // Display value
                 System.out.print(licenseNumber);
-                System.out.print("\t\t" + name + "  ");
-                System.out.println(eMail);
+                System.out.print("\t\t\t" + name);
+                System.out.print("    " + eMail);
+                System.out.println();
 
             }
+            System.out.println("------------------------------------");
             System.out.println();
             resultSet.close();
         }

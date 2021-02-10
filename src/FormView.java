@@ -107,10 +107,13 @@ public class FormView implements ViewInterface {
 
         System.out.println();
         System.out.println("Please enter information below");
-        text = getString("State your reason for your application : ", true);
+        text = getString("State your reason for your application : ", false);
         addition = getString("If you want to add something, please write here : ", true);
-        type = 1;
-        return_type = getInteger("Return Type (If you want to read your response online press 1 otherwise 0): ", true);
+        if (addition == null){
+            addition = "";
+        }
+        type = 1; // always person because we did not make for institution
+        return_type = getInteger("Return Type (If you want to read your response online press 1 otherwise 0): ", false);
         System.out.println();
 
         rows.add(new Form(text, addition, type, return_type));

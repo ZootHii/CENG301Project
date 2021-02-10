@@ -168,7 +168,9 @@ public class PendingView implements ViewInterface {
 
     private ViewData displayLoggedApplication() throws Exception {
         ResultSet resultSetLogged = PendingModel.selectLoggedApplication();
+        System.out.print("------------------------------------------------------------------------------------");
         System.out.println("\nStatus\t\tResult\t\t\tAddition\tFee\t\t\tDate\t   Request Date\t Payment");
+        System.out.println("------------------------------------------------------------------------------------");
         if (resultSetLogged != null) {
             while (resultSetLogged.next()) {
                 if (resultSetLogged.getString("TC_PN").equals(PersonView.PersonTC_PN)) {
@@ -198,6 +200,7 @@ public class PendingView implements ViewInterface {
                     }
                 }
             }
+            System.out.println("------------------------------------------------------------------------------------");
             System.out.println();
             resultSetLogged.close();
         }

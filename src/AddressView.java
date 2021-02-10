@@ -141,19 +141,22 @@ public class AddressView implements ViewInterface {
         String addressType, country, city, town, district, postalCode, text;
 
         System.out.println("Enter your address information:");
-        addressType = getString("Enter your address type(Ex:Home / Office) : ", true);
-        country = getString("Enter your country? : ", true);
-        city = getString("Enter your city? : ", true);
-        town = getString("Enter your town? : ", true);
+        addressType = getString("Enter your address type(Ex:Home / Office) : ", false);
+        country = getString("Enter your country? : ", false);
+        city = getString("Enter your city? : ", false);
+        town = getString("Enter your town? : ", false);
         district = getString("Enter your district? : ", true);
-        postalCode = getString("Enter your postal code? : ", true);
+        if (district == null){
+            district = "";
+        }
+        postalCode = getString("Enter your postal code? : ", false);
         text = getString("Enter explanation for your address(Optional) : ", true);
+        if (text == null){
+            text = "";
+        }
         System.out.println();
 
-        if (addressType != null && country != null && city != null && town != null && district != null
-                && postalCode != null) {
-            rows.add(new Address(addressType, country, city, town, district, postalCode, text));
-        }
+        rows.add(new Address(addressType, country, city, town, district, postalCode, text));
 
         parameters.put("rows", rows);
 
