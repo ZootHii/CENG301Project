@@ -101,13 +101,9 @@ public class PersonView implements ViewInterface {
 
         Map<String, Object> updateParameters = new HashMap<>();
         Map<String, Object> whereParameters = new HashMap<>();
-        Map<String, Object> parameters = new HashMap<>();
 
         updateParameters.put("ADDRESS_ID", AddressView.addressID);
         whereParameters.put("ID", personID);
-
-        parameters.put("updateParameters", updateParameters);
-        parameters.put("whereParameters", whereParameters);
 
         PersonModel.updatePersonWithAddress(updateParameters, whereParameters);
         System.out.println("You have successfully registered!");
