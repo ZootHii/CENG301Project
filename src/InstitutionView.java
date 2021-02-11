@@ -69,34 +69,7 @@ public class InstitutionView implements ViewInterface {
     }
 
     ViewData insertGUI(ModelData modelData) throws Exception {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("fieldNames", " LICENSE_NUMBER, NAME, EMAIL, PHONE, FAX, ADDRESS_ID, BOUND_TO_ID, TYPE ");
-
-        List<Object> rows = new ArrayList<>();
-
-        String licenseNumber, name, eMail, phone, fax;
-        Integer addressID, boundToID, type;
-        do {
-            System.out.println("Fields to insert:");
-            licenseNumber = getString("License Number : ", true);
-            name = getString("Name : ", true);
-            eMail = getString("eMail : ", true);
-            phone = getString("Phone : ", true);
-            fax = getString("Fax : ", true);
-            addressID = getInteger("Address ID : ", true);
-            boundToID = getInteger("Bound To ID : ", true);
-            type = getInteger("Type : ", true);
-            System.out.println();
-
-            if (licenseNumber != null && name != null && eMail != null && phone != null && fax != null && addressID != null && boundToID != null && type != null) {
-                rows.add(new Institution(licenseNumber, name, eMail, phone, fax, addressID, boundToID, type));
-            }
-        }
-        while (licenseNumber != null && name != null && eMail != null && phone != null && fax != null && addressID != null && boundToID != null && type != null);
-
-        parameters.put("rows", rows);
-
-        return new ViewData("Institution", "insert", parameters);
+        return null;
     }
 
     @Override

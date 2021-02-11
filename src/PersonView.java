@@ -110,6 +110,8 @@ public class PersonView implements ViewInterface {
         parameters.put("whereParameters", whereParameters);
 
         PersonModel.updatePersonWithAddress(updateParameters, whereParameters);
+        System.out.println("You have successfully registered!");
+        System.out.println();
         return new ViewData("InterMenu", "normal"); // UPDATE LAST PERSON'S ADDRESS_ID
     }
 
